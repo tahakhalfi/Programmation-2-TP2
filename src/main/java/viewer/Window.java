@@ -1,104 +1,73 @@
 package viewer;
 
-import java.util.HashMap;
+import manager.Message;
+
+import viewer.classes.pages.Place;
+import viewer.classes.pages.Menu;
+import viewer.classes.pages.Chapter;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import viewer.classes.Page;
-import viewer.classes.Game;
-import viewer.classes.Home;
-import viewer.classes.Track;
+import viewer.classes.pages.Track;
+
+import java.util.HashMap;
 
 public class Window {
 
-    private HashMap<String, Page> pages;
+    private static Stage stage;
+    private static Scene scene;
 
-    private Stage stage;
+    private static HashMap<String, Chapter> chapters;
 
-    public Window(Stage stage) {
+    public static void initiate(Stage givenStage) {
 
-        this.pages = new HashMap<>();
+        chapters = new HashMap<>();
 
-        pages.put("Home", new Home(this));
-        pages.put("Game", new Game(this));
-        pages.put("Track", new Track(this));
+        Chapter menu = new Menu();
+        Chapter place = new Place();
+        Chapter track = new Track();
 
-        this.stage = stage;
+        chapters.put("Menu", menu);
+        chapters.put("Place", place);
+        chapters.put("Track", track);
+
+        Scene givenScene = new Scene(
+                menu.getRoot(),
+                1000,
+                800
+        );
+
+        givenStage.setTitle("DICE");
+
+        stage = givenStage;
+        scene = givenScene;
 
     }
 
-    public void open() {
+    public static void open() {
 
-        stage.setTitle("DICE");
         stage.show();
-
-        turn("Home");
-
-    }
-
-    public void close() {
-
-        System.exit(0);
+        Message.inform("Window Opened!");
 
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
+    public static void close() {
 
-    public Page getPage(String name) {
-        return pages.get(name);
-    }
-
-    public void turn(String name) {
-
-        pull("Current");
-        push(name);
+        stage.hide();
+        Message.inform("Window Closed!");
 
     }
 
-    public void push(String name) {
-
-        Page page = getPage(name);
-
-        if (page == null) {
-            return;
-        }
-
-        Scene scene = page.getScene();
-
-        if (this.stage.getScene() != null) {
-            return;
-        }
-
-        page.open();
-
-        this.stage.setScene(scene);
-
-        pages.replace("Current", page);
-
+    public static Chapter getChapter(String name) {
+        return chapters.get(name);
     }
 
-    public void pull(String name) {
+    public static Scene getScene() {
+        return scene;
+    }
 
-        Page page = getPage(name);
-
-        if (page == null) {
-            return;
-        }
-
-        Scene scene = page.getScene();
-
-        if (this.stage.getScene() != scene) {
-            return;
-        }
-
-        page.close();
-
-        this.stage.setScene(null);
-
-        pages.replace("Current", null);
-
+    public static Stage getStage() {
+        return stage;
     }
 
 }

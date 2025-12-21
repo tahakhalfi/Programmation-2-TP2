@@ -15,7 +15,8 @@ public class GUILauncher extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        new Window(stage).open();
+        Window.initiate(stage);
+        Window.open();
     }
 
 }

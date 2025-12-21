@@ -1,11 +1,10 @@
-package viewer.classes;
+package viewer.classes.pages;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import viewer.Window;
 
 import javafx.geometry.Pos;
 
@@ -13,11 +12,13 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class Home extends Page {
+public class Menu extends Chapter {
 
-    public Home(Window window) {
+    public Menu() {
 
         VBox root = new VBox();
+
+        super(root);
 
         root.setAlignment(Pos.CENTER);
         root.setSpacing(10);
@@ -27,8 +28,6 @@ public class Home extends Page {
                 CornerRadii.EMPTY,
                 Insets.EMPTY
         )));
-
-        super(window, root);
 
         Text text = new Text();
         text.setId("Title");
@@ -54,10 +53,6 @@ public class Home extends Page {
         button.setId("Quit");
         button.setText("Quit");
         this.root.getChildren().add(button);
-
-    }
-
-    public void play() {
 
     }
 
