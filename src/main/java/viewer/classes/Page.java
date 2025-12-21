@@ -1,21 +1,23 @@
 package viewer.classes;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import viewer.Window;
 
 public class Page {
 
-    private Scene scene;
+    protected Window window;
 
-    public Page(Pane root) {
+    protected Scene scene;
+    protected Pane root;
 
-        Scene scene = new Scene(
-                root,
-                1000,
-                800
-        );
+    public Page(Window window, Pane root) {
 
-        this.scene = scene;
+        this.window = window;
+
+        this.scene = new Scene(root, 1000, 800);
+        this.root = root;
 
     }
 
@@ -24,7 +26,22 @@ public class Page {
     }
 
     public Pane getRoot() {
-        return (Pane) this.scene.getRoot();
+        return this.root;
+    }
+
+    public Node getChild(String id) {
+
+        Node child = null;
+
+        for (Node c: this.root.getChildren()) {
+            if (c.getId().equals(id)) {
+                child = c;
+                break;
+            }
+        }
+
+        return  child;
+
     }
 
     public void open() {

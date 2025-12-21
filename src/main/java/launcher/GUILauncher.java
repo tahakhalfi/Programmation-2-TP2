@@ -1,16 +1,21 @@
 package launcher;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
-import viewer.View;
 
-import java.io.IOException;
+import viewer.Window;
 
 public class GUILauncher extends Application {
 
+    public static void main(String[] args) {
+        Application.launch(GUILauncher.class, args);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        new View(stage);
+        new Window(stage).open();
     }
 
 }

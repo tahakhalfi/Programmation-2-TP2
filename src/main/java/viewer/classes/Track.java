@@ -1,15 +1,15 @@
-package viewer.classes.pages;
+package viewer.classes;
 
 import javafx.scene.layout.VBox;
-import viewer.classes.Page;
+import viewer.Window;
 
 public class Track extends Page {
 
-    public Track() {
+    public Track(Window window) {
 
         VBox root = new VBox();
 
-        super(root);
+        super(window, root);
 
     }
 
