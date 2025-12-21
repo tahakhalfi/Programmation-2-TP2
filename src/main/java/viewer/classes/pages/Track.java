@@ -12,4 +12,12 @@ public class Track extends Chapter {
 
     }
 
+    public void open() {
+
+    }
+
+    public void close() {
+
+    }
+
 }

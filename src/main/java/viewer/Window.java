@@ -55,7 +55,6 @@ public class Window {
 
         stage.hide();
         Message.inform("Window Closed!");
-
     }
 
     public static Chapter getChapter(String name) {

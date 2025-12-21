@@ -1,6 +1,8 @@
 package viewer.classes.pages;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -53,6 +55,14 @@ public class Menu extends Chapter {
         button.setId("Quit");
         button.setText("Quit");
         this.root.getChildren().add(button);
+
+    }
+
+    public void open() {
+
+    }
+
+    public void close() {
 
     }
 
