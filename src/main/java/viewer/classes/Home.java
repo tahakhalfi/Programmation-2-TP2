@@ -1,5 +1,10 @@
 package viewer.classes;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import viewer.Window;
 
 import javafx.geometry.Pos;
@@ -13,7 +18,15 @@ public class Home extends Page {
     public Home(Window window) {
 
         VBox root = new VBox();
+
         root.setAlignment(Pos.CENTER);
+        root.setSpacing(10);
+        root.setPadding(new Insets(10));
+        root.setBackground(new Background(new BackgroundFill(
+                Color.rgb(255, 189, 97),
+                CornerRadii.EMPTY,
+                Insets.EMPTY
+        )));
 
         super(window, root);
 
@@ -41,6 +54,10 @@ public class Home extends Page {
         button.setId("Quit");
         button.setText("Quit");
         this.root.getChildren().add(button);
+
+    }
+
+    public void play() {
 
     }
 

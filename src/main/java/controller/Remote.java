@@ -1,4 +1,4 @@
 package controller;
 
-public class Control {
+public class Remote {
 }
