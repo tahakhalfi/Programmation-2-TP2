@@ -42,6 +42,11 @@ public class Menu extends Chapter {
         this.root.getChildren().add(button);
 
         button = new Button();
+        button.setId("track");
+        button.setText("Track");
+        this.root.getChildren().add(button);
+
+        button = new Button();
         button.setId("options");
         button.setText("Options");
         this.root.getChildren().add(button);
