@@ -12,11 +12,11 @@ public class Place extends Chapter {
 
     }
 
-    public void open() {
+    public void open(Runnable onFinished) {
 
     }
 
-    public void close() {
+    public void close(Runnable onFinished) {
 
     }
 

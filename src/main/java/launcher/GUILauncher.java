@@ -12,7 +12,7 @@ public class GUILauncher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Window.initiate(stage);
-        Window.open();
+        Window.open(null);
     }
 
 }

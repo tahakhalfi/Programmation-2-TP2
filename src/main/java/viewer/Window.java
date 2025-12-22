@@ -1,5 +1,6 @@
 package viewer;
 
+import manager.Chronologue;
 import manager.Message;
 
 import viewer.classes.pages.Place;
@@ -61,50 +62,45 @@ public class Window {
         return stage;
     }
 
-    public static void open() {
-
-        Message.inform("// Window opening...");
+    public static void open(Runnable onFinished) {
 
         stage.show();
-        reveal("focus");
+        reveal("focus", onFinished);
 
     }
 
-    public static void close() {
+    public static void close(Runnable onFinished) {
 
-        Message.inform("// Window closing...");
-
-        stage.hide();
-        conceal();
-
-    }
-
-    public static void advance(String name) {
-
-        conceal();
-        reveal(name);
+        conceal(() -> {
+            stage.hide();
+            onFinished.run();
+        });
 
     }
 
-    public static void reveal(String name) {
+    public static void advance(String name, Runnable onFinished) {
+        conceal(() -> {reveal(name, onFinished);});
+    }
+
+    public static void reveal(String name, Runnable onFinished) {
 
         Chapter chapter = getChapter(name);
 
         if (chapter != null) {
             scene.setRoot(chapter.getRoot());
-            chapter.open();
             chapters.replace("focus", chapter);
+            chapter.open(onFinished);
         }
 
     }
 
-    public static void conceal() {
+    public static void conceal(Runnable onFinished) {
 
         Chapter focus = getChapter("focus");
 
         if (focus != null) {
-            focus.close();
             chapters.replace("focus", null);
+            focus.close(onFinished);
         }
 
     }

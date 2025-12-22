@@ -15,12 +15,20 @@ public class Chapter {
         return this.root;
     }
 
-    public void open() {
-        Message.inform("// Opening Page.");
+    public void open(Runnable onFinished) {
+
+        if (onFinished != null) {
+            onFinished.run();
+        }
+
     }
 
-    public void close() {
-        Message.inform("// Closing Page.");
+    public void close(Runnable onFinished) {
+
+        if (onFinished != null) {
+            onFinished.run();
+        }
+
     }
 
 }

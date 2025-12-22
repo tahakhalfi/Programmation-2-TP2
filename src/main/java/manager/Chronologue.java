@@ -39,10 +39,10 @@ public class Chronologue {
 
     }
 
-    public static void hang(double time, EventHandler handler) {
+    public static void hang(double time, Runnable onFinished) {
 
         PauseTransition pause = new PauseTransition(Duration.seconds(time));
-        pause.setOnFinished(handler);
+        pause.setOnFinished((event) -> {onFinished.run();});
         pause.play();
 
     }
