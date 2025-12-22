@@ -1,5 +1,6 @@
 package viewer.classes.pages;
 
+import controller.Remote;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -8,6 +9,7 @@ import javafx.geometry.Pos;
 
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import manager.Message;
 
 public class Menu extends Chapter {
 
@@ -46,6 +48,10 @@ public class Menu extends Chapter {
         button.setText("Track");
         this.root.getChildren().add(button);
 
+        button.setOnMouseClicked((event) -> {
+            Remote.trackButtonClicked();
+        });
+
         button = new Button();
         button.setId("options");
         button.setText("Options");
@@ -60,9 +66,13 @@ public class Menu extends Chapter {
 
     public void open() {
 
+        Message.inform("// Menu chapter opened!");
+
     }
 
     public void close() {
+
+        Message.inform("// Menu chapter closed!");
 
     }
 

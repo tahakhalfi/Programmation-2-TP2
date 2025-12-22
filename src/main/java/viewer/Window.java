@@ -104,7 +104,6 @@ public class Window {
 
         if (focus != null) {
             focus.close();
-            scene.setRoot(null);
             chapters.replace("focus", null);
         }
 
