@@ -63,19 +63,19 @@ public class Window {
 
     public static void open() {
 
+        Message.inform("// Window opening...");
+
         stage.show();
         reveal("focus");
-
-        Message.inform("// Window Opened!");
 
     }
 
     public static void close() {
 
+        Message.inform("// Window closing...");
+
         stage.hide();
         conceal();
-
-        Message.inform("// Window Closed!");
 
     }
 

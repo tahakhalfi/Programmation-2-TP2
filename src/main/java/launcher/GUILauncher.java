@@ -9,10 +9,6 @@ import viewer.Window;
 
 public class GUILauncher extends Application {
 
-    public static void main(String[] args) {
-        Application.launch(GUILauncher.class, args);
-    }
-
     @Override
     public void start(Stage stage) throws IOException {
         Window.initiate(stage);

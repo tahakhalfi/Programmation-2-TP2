@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import manager.Chronologue;
 import manager.Message;
 
 public class Menu extends Chapter {
@@ -66,13 +67,13 @@ public class Menu extends Chapter {
 
     public void open() {
 
-        Message.inform("// Menu chapter opened!");
+        Message.inform("// Menu opening...");
 
     }
 
     public void close() {
 
-        Message.inform("// Menu chapter closed!");
+        Message.inform("// Menu closing...");
 
     }
 
