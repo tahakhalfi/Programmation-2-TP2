@@ -1,9 +1,11 @@
 package manager;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-
-import java.time.LocalDate;
+import javafx.event.EventHandler;
 
 public class Chronologue {
 
@@ -15,21 +17,33 @@ public class Chronologue {
         int month = today.getMonthValue();
         int year = today.getYear();
 
-        String format = day + "/" + month + "/" + year;
+        LocalTime moment = LocalTime.now();
 
-        return format;
+        int hour = moment.getHour();
+        int minute = moment.getMinute();
+        int second = moment.getSecond();
+
+        return day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second;
 
     }
 
-    public static void pause(double seconds) {
+    public static void pause(double time) {
 
-        long milliseconds = (long) (1000 * seconds);
+        long milliseconds = (long) (1000 * time);
 
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void hang(double time, EventHandler handler) {
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(time));
+        pause.setOnFinished(handler);
+        pause.play();
 
     }
 

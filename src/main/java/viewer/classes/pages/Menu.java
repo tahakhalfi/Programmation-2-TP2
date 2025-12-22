@@ -1,6 +1,8 @@
 package viewer.classes.pages;
 
 import controller.Remote;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
