@@ -1,6 +1,7 @@
 package viewer.classes.pages;
 
 import javafx.scene.layout.Pane;
+import manager.Message;
 
 public class Chapter {
 
@@ -15,11 +16,11 @@ public class Chapter {
     }
 
     public void open() {
-        System.out.println("// Opening Page.");
+        Message.inform("// Opening Page.");
     }
 
     public void close() {
-        System.out.println("// Closing Page.");
+        Message.inform("// Closing Page.");
     }
 
 }

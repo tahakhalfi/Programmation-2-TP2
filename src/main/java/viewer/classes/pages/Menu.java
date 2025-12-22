@@ -1,17 +1,12 @@
 package viewer.classes.pages;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import javafx.geometry.Pos;
 
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class Menu extends Chapter {
@@ -32,27 +27,27 @@ public class Menu extends Chapter {
         )));
 
         Text text = new Text();
-        text.setId("Title");
+        text.setId("title");
         text.setText("DICE");
         this.root.getChildren().add(text);
 
         Button button = new Button();
-        button.setId("Play");
+        button.setId("play");
         button.setText("Play");
         this.root.getChildren().add(button);
 
         button = new Button();
-        button.setId("Bundle");
+        button.setId("bundle");
         button.setText("Bundle");
         this.root.getChildren().add(button);
 
         button = new Button();
-        button.setId("Options");
+        button.setId("options");
         button.setText("Options");
         this.root.getChildren().add(button);
 
         button = new Button();
-        button.setId("Quit");
+        button.setId("quit");
         button.setText("Quit");
         this.root.getChildren().add(button);
 
