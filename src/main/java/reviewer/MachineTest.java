@@ -12,13 +12,11 @@ public class MachineTest {
 
         try {
 
-            // TEST saveInfo
             Machine.saveInfo(
                     "Nizar le Nul",
                     "0"
             );
 
-            // TEST loadInfo
             List<String> ligne = Machine.loadInfo(0);
 
             Message.state("// Ligne lue : " + ligne);
