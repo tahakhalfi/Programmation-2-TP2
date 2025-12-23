@@ -1,4 +1,4 @@
-package viewer.classes.pages;
+package viewer.interaction;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

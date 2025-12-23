@@ -1,4 +1,4 @@
-package modeler;
+package modeler.usage;
 
 public class Account {
 

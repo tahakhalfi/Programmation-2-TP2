@@ -1,7 +1,6 @@
-package viewer.classes.pages;
+package viewer.interaction;
 
 import javafx.scene.layout.Pane;
-import manager.Message;
 
 public class Chapter {
 

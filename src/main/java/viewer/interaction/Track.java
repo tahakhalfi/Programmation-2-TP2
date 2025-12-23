@@ -1,4 +1,4 @@
-package viewer.classes.pages;
+package viewer.interaction;
 
 import controller.Remote;
 import javafx.collections.FXCollections;

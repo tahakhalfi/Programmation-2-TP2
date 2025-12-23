@@ -9,6 +9,8 @@ import java.util.*;
 
 public class Machine {
 
+    private static final String CONNECTION = "sto/main/save/";
+
     // saveInfo(winner, scores) méthode qui prend information et l ecrit dans fichier
     // et retourne l index de la ligne ecrite
     public static int saveInfo(String winner, String scores) throws Exception {
@@ -17,12 +19,13 @@ public class Machine {
 
         Storage csv = new Storage(';');
         String filename = "history.csv";
+        String pathname = CONNECTION + filename;
 
         // Lire les données existantes
         List<List<String>> data = new ArrayList<>();
 
-        if (Files.exists(Paths.get(filename))) {
-            data = csv.read(filename);
+        if (Files.exists(Paths.get(pathname))) {
+            data = csv.read(pathname);
         }
 
         // Créer une nouvelle ligne
@@ -35,7 +38,7 @@ public class Machine {
         data.add(newRow);
 
         // Écrire dans le fichier
-        csv.write(filename, data);
+        csv.write(pathname, data);
 
         // Retourner l'index de la ligne ajoutée
         return data.size() - 1;
@@ -47,9 +50,10 @@ public class Machine {
 
         Storage csv = new Storage(';');
         String filename = "history.csv";
+        String pathname = CONNECTION + filename;
 
         // Lire toutes les lignes
-        List<List<String>> data = csv.read(filename);
+        List<List<String>> data = csv.read(pathname);
 
         // Vérifier que l’index est valide
         if (index < 0 || index >= data.size()) {

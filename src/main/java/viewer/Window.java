@@ -1,15 +1,12 @@
 package viewer;
 
-import manager.Chronologue;
-import manager.Message;
-
-import viewer.classes.pages.Place;
-import viewer.classes.pages.Menu;
-import viewer.classes.pages.Chapter;
+import viewer.interaction.Place;
+import viewer.interaction.Menu;
+import viewer.interaction.Chapter;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import viewer.classes.pages.Track;
+import viewer.interaction.Track;
 
 import java.util.HashMap;
 

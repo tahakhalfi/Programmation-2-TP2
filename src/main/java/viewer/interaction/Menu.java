@@ -1,13 +1,8 @@
-package viewer.classes.pages;
+package viewer.interaction;
 
-import javafx.animation.FadeTransition;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 import manager.Animation;
-import manager.Iteration;
-import manager.Message;
 
 import controller.Remote;
 import javafx.geometry.Insets;

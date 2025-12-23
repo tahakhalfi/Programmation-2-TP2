@@ -1,8 +1,7 @@
 package controller;
 
-import modeler.Machine;
 import viewer.Window;
-import viewer.classes.pages.Track;
+import viewer.interaction.Track;
 
 public class Remote {
 

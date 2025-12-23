@@ -1,4 +1,4 @@
-package viewer.classes.pages;
+package viewer.interaction;
 
 import javafx.scene.layout.VBox;
 
