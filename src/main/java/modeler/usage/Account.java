@@ -2,34 +2,68 @@ package modeler.usage;
 
 public class Account {
 
-    private String pseudo;
-    private int xp;
-    public Account(String pseudo, int xp){
-        this.pseudo = pseudo;
-        this.xp = xp;
-    }
-    public String getPseudo() {
-        return this.pseudo;
-    }
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
-    public int getXp() {
-        return this.xp;
+    private static String name;
+
+    private static int level;
+    private static int experience;
+
+    private static final int EXPERIENCING = 50;
+
+    public static void signin(String givenName) {
+
+        login(
+                givenName,
+                1,
+                0
+        );
+
     }
 
-    public void setXp(int xp) {
-        this.xp = xp;
+    public static void login(String givenName, int givenLevel, int givenExperience) {
+
+        name = givenName;
+        level = givenLevel;
+        experience = givenExperience;
+
     }
 
-    // Calcul du level à partir de l'xp
-    public int getLevel() {
-        return 1 + (xp / 50);
+    public static String getName() {
+        return name;
     }
 
-    public static void main(String[] args){
-        Account player1 = new Account("NinjaMaster", 120);
-        System.out.println(player1.getLevel());
+    public static int getExperience() {
+        return experience;
+    }
+
+    public static void addExperience(int amount) {
+
+        experience += amount;
+
+        lookExperience();
+
+    }
+
+    public static void lookExperience() {
+
+        int limit = level * EXPERIENCING;
+
+        if (experience >= limit) {
+
+            experience -= limit;
+
+            upLevel();
+            lookExperience();
+
+        }
+
+    }
+
+    public static int getLevel() {
+        return level;
+    }
+
+    public static void upLevel() {
+        level += 1;
     }
 
 }
