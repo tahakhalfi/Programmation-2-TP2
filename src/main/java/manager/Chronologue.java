@@ -27,23 +27,15 @@ public class Chronologue {
 
     }
 
-    public static void pause(double time) {
+    public static void pause(double delay) {
 
-        long milliseconds = (long) (1000 * time);
+        long milliseconds = (long) (1000 * delay);
 
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public static void hang(double time, Runnable onFinished) {
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(time));
-        pause.setOnFinished((event) -> {onFinished.run();});
-        pause.play();
 
     }
 

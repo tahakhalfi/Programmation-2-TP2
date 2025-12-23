@@ -20,6 +20,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import manager.Palette;
 
+import java.util.List;
+
 public class Menu extends Chapter {
 
     public Menu() {
@@ -202,13 +204,21 @@ public class Menu extends Chapter {
 
         Message.inform("// Menu opening...");
 
+        VBox bottom = (VBox) root.lookup("#bottom");
+
+        List<Node> children = bottom.getChildren();
+
+        Animation.fadein(children, 0, 1, 0.5, 0.1, onFinished);
+
     }
 
     public void close(Runnable onFinished) {
 
         VBox bottom = (VBox) root.lookup("#bottom");
 
-        Animation.fadeout(bottom.getChildren(), 0, onFinished);
+        List<Node> children = bottom.getChildren();
+
+        Animation.fadeout(children, children.size() - 1, -1, 0.5, 0.1, onFinished);
 
     }
 
