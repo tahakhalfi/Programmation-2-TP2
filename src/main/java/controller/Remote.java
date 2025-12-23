@@ -32,7 +32,10 @@ public class Remote {
         Track track = (Track) Window.getChapter("track");
         track.clearInfo();
     }
-        //    }
+    public static void refreshButtonCliqued(){
+        Window.advance("track",null);
+    }
+
 
     public static void quitButtonClicked() {
         Window.close(null);

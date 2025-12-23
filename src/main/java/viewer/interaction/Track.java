@@ -128,9 +128,10 @@ public class Track extends Chapter {
                         "-fx-background-radius: 8;"
         );
 
-        root.setStyle("-fx-background-color: #2c3e50;");
+        root.setStyle("-fx-background-color: #FFDAB9;");
 
         btn1.setOnMouseClicked(event -> { Remote.backToMenuButtonCliqued();});
+        btn2.setOnMouseClicked(event -> { Remote.refreshButtonCliqued();});
         btn3.setOnMouseClicked(event -> { Remote.clearHistoryButtonCliqued();});
 
 
@@ -144,6 +145,7 @@ public class Track extends Chapter {
         showInfo("2025-12-22", "Nizar", "Nizar:0 et Taha: 26");
         showInfo("2025-12-23", "Taha", "Nizar:23 et Taha: 5");
         hideInfo(1);
+
 
 
         // Ajout au layout
