@@ -202,8 +202,6 @@ public class Menu extends Chapter {
 
     public void open(Runnable onFinished) {
 
-        Message.inform("// Menu opening...");
-
         VBox bottom = (VBox) root.lookup("#bottom");
 
         List<Node> children = bottom.getChildren();
