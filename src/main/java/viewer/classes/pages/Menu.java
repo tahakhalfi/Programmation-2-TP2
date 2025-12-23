@@ -1,12 +1,11 @@
 package viewer.classes.pages;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.SequentialTransition;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
-import manager.Chronologue;
+import manager.Animation;
 import manager.Iteration;
 import manager.Message;
 
@@ -19,8 +18,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
-
-import java.util.List;
+import manager.Palette;
 
 public class Menu extends Chapter {
 
@@ -34,7 +32,7 @@ public class Menu extends Chapter {
         root.setAlignment(Pos.CENTER);
         root.setSpacing(50);
         root.setBackground(new Background(new BackgroundFill(
-                Color.rgb(255, 189, 97),
+                Palette.forBackground(),
                 CornerRadii.EMPTY,
                 Insets.EMPTY
         )));
@@ -54,8 +52,8 @@ public class Menu extends Chapter {
 
         Text text = new Text();
         text.setId("title");
-        text.setText("DICE");
-        text.setFill(Color.WHITE);
+        text.setText("DICE PEACH");
+        text.setFill(Palette.forTitle());
         text.setFont(Font.font(
                 "Franklin Gothic Demi",
                 36
@@ -67,7 +65,7 @@ public class Menu extends Chapter {
         Button button = new Button();
         button.setId("play");
         button.setText("PLAY");
-        button.setTextFill(Color.WHITE);
+        button.setTextFill(Palette.forInactive());
         button.setFont(Font.font(
                 "Franklin Gothic Demi",
                 18
@@ -89,7 +87,7 @@ public class Menu extends Chapter {
         button = new Button();
         button.setId("bundle");
         button.setText("BUNDLE");
-        button.setTextFill(Color.WHITE);
+        button.setTextFill(Palette.forInactive());
         button.setFont(Font.font(
                 "Franklin Gothic Demi",
                 18
@@ -111,7 +109,7 @@ public class Menu extends Chapter {
         button = new Button();
         button.setId("track");
         button.setText("TRACK");
-        button.setTextFill(Color.WHITE);
+        button.setTextFill(Palette.forInactive());
         button.setFont(Font.font(
                 "Franklin Gothic Demi",
                 18
@@ -133,7 +131,7 @@ public class Menu extends Chapter {
         button = new Button();
         button.setId("options");
         button.setText("OPTIONS");
-        button.setTextFill(Color.WHITE);
+        button.setTextFill(Palette.forInactive());
         button.setFont(Font.font(
                 "Franklin Gothic Demi",
                 18
@@ -155,7 +153,7 @@ public class Menu extends Chapter {
         button = new Button();
         button.setId("quit");
         button.setText("QUIT");
-        button.setTextFill(Color.WHITE);
+        button.setTextFill(Palette.forInactive());
         button.setFont(Font.font(
                 "Franklin Gothic Demi",
                 18
@@ -183,7 +181,7 @@ public class Menu extends Chapter {
                 20
         ));
 
-        button.setTextFill(Color.rgb(230, 230, 230));
+        button.setTextFill(Palette.forActive());
 
     }
 
@@ -196,7 +194,7 @@ public class Menu extends Chapter {
                 18
         ));
 
-        button.setTextFill(Color.WHITE);
+        button.setTextFill(Palette.forInactive());
 
     }
 
@@ -208,31 +206,9 @@ public class Menu extends Chapter {
 
     public void close(Runnable onFinished) {
 
-        Iteration iteration = new Iteration() {
-            public void next(ObservableList<Node> children, int index, Runnable onFinished) {
-
-                if (index >= children.size()) {
-                    if (onFinished != null) {
-                        onFinished.run();
-                    }
-                    return;
-                }
-
-                Button button = (Button) children.get(index);
-
-                FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), button);
-                fadeOut.setFromValue(1.0); // fully visible
-                fadeOut.setToValue(0.0);   // fully transparent
-                fadeOut.play();
-
-                this.next(children, index + 1, onFinished);
-
-            }
-        };
-
         VBox bottom = (VBox) root.lookup("#bottom");
 
-        iteration.next(bottom.getChildren(), 0, onFinished);
+        Animation.fadeout(bottom.getChildren(), 0, onFinished);
 
     }
 
