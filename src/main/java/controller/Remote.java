@@ -29,6 +29,11 @@ public class Remote {
     public static void backToMenuButtonCliqued(){
         Window.advance("menu",null);
     }
+    public static void clearHistoryButtonCliqued(){
+        Track track = (Track) Window.getChapter("track");
+        track.clearInfo();
+    }
+        //    }
 
     public static void quitButtonClicked() {
         Window.close(null);

@@ -131,6 +131,9 @@ public class Track extends Chapter {
         root.setStyle("-fx-background-color: #2c3e50;");
 
         btn1.setOnMouseClicked(event -> { Remote.backToMenuButtonCliqued();});
+        btn3.setOnMouseClicked(event -> { Remote.clearHistoryButtonCliqued();});
+
+
 
 
 
@@ -181,6 +184,10 @@ public class Track extends Chapter {
         if(index >= 0 && index < historique.size()){
             historique.remove(index);
         }
+    }
+
+    public void clearInfo(){
+        historique.clear();
     }
 
 
