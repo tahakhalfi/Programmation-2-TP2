@@ -18,14 +18,10 @@ public class Remote {
 
     public static void trackButtonClicked() {
 
-        // 1️⃣ Récupérer la vue Track existante
         Track track = (Track) Window.getChapter("track");
 
-        // 2️⃣ Injecter le modèle dans la vue
-        track.setMachine(machine);
-
-        // 3️⃣ Afficher la page
         Window.advance("track", null);
+
     }
 
     public static void optionsButtonClicked() {
@@ -36,7 +32,9 @@ public class Remote {
         Window.advance("menu",null);
     }
 
-    public static void quitButtonClicked() { Window.close(null); }
+    public static void quitButtonClicked() {
+        Window.close(null);
+    }
 
 }
 

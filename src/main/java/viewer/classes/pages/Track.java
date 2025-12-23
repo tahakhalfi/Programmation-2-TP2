@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import manager.Message;
-import modeler.Machine;
 
 public class Track extends Chapter {
 
@@ -148,12 +147,6 @@ public class Track extends Chapter {
         root.getChildren().addAll(text, table, buttonsBox);
 
 
-    }
-    // Ajout**
-    private Machine machine;
-
-    public void setMachine(Machine machine) {
-        this.machine = machine;
     }
 
 
