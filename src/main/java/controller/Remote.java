@@ -6,7 +6,7 @@ import viewer.interaction.Track;
 public class Remote {
 
     public static void playButtonClicked() {
-        Window.advance("place", null);
+        Window.advance("config", null);
     }
 
     public static void bundleButtonClicked() {
@@ -14,31 +14,28 @@ public class Remote {
     }
 
     public static void trackButtonClicked() {
-
-        Track track = (Track) Window.getChapter("track");
-
         Window.advance("track", null);
-
     }
 
     public static void optionsButtonClicked() {
 
     }
 
-    public static void backToMenuButtonCliqued(){
+    public static void quitButtonClicked() {
+        Window.close(null);
+    }
+
+    public static void backButtonClicked(){
         Window.advance("menu",null);
     }
+
+    public static void refreshButtonCliqued(){
+        //Window.advance("track",null);
+    }
+
     public static void clearHistoryButtonCliqued(){
         Track track = (Track) Window.getChapter("track");
         track.clearInfo();
-    }
-    public static void refreshButtonCliqued(){
-        Window.advance("track",null);
-    }
-
-
-    public static void quitButtonClicked() {
-        Window.close(null);
     }
 
 }

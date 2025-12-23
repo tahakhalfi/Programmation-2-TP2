@@ -11,7 +11,7 @@ public class Account {
 
     public static void signin(String givenName) {
 
-        state(
+        statein(
                 givenName,
                 1,
                 0
@@ -21,13 +21,26 @@ public class Account {
 
     public static void login(String givenName) {
 
+        //int givenLevel = 1;
+        //int givenExperience = 0;
+
+        statein(
+                givenName,
+                givenLevel,
+                givenExperience
+        );
+
     }
 
-    public static void state(String givenName, int givenLevel, int givenExperience) {
+    public static void statein(String givenName, int givenLevel, int givenExperience) {
 
         name = givenName;
         level = givenLevel;
         experience = givenExperience;
+
+    }
+
+    public static void savein() {
 
     }
 

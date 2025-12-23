@@ -5,14 +5,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import manager.Animation;
 import manager.Message;
+import manager.Palette;
+
+import java.util.List;
 
 public class Track extends Chapter {
 
@@ -24,33 +28,17 @@ public class Track extends Chapter {
 
         super(root);
 
-
-
-
-        // tout le contenu est placé en haut et centré horizontalement
         root.setAlignment(Pos.TOP_CENTER);
-        // espace entre texte et tableau
         root.setSpacing(50);
-        // espace entre le contenu et les bords de la scène
-        root.setPadding(new Insets(10, 50, 10, 50)); // top, right, bottom, left
+        root.setPadding(new Insets(10, 50, 10, 50));
+        root.setBackground(new Background(new BackgroundFill(Palette.colorBackground(), null, null)));
 
-        // Texte (titre du tableau)
-        Text text = new Text("GAME HISTORY");
+        Text text = new Text("TRACK");
         text.setId("title");
-        text.setFont(Font.font("Segoe UI", 28));
-
-        /*
-
-        creation du tableau
-
-        le tableau affiche des objets GameHistory
-        1 ligne = 1 objet GameHistory
-
-        */
+        text.setFill(Palette.colorTitle());
+        text.setFont(Palette.fontTitle());
 
         TableView<GameHistory> table = new TableView<>();
-
-        // creation des colonnes
 
         TableColumn<GameHistory,String> column1 = new TableColumn<>("date");
         column1.setCellValueFactory(data -> data.getValue().dateProperty());
@@ -61,109 +49,84 @@ public class Track extends Chapter {
         TableColumn<GameHistory,String> column3 = new TableColumn<>("winner");
         column3.setCellValueFactory(data -> data.getValue().winnerProperty());
 
-        // Ajout des colonnes au tableau visible
-
         table.getColumns().addAll(column1, column2, column3);
 
-
-        // forcer colonnes a remplir toute largeur colonne
-
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        // centrer le texte dans colonne
 
         column1.setStyle("-fx-alignment: CENTER;");
         column2.setStyle("-fx-alignment: CENTER;");
         column3.setStyle("-fx-alignment: CENTER;");
 
-
-
-        // ajout de donnes ou ObservableList est une liste visible par javaFX
         historique = FXCollections.observableArrayList();
-        // le tableau affiche maintenant le contenue de historique
         table.setItems(historique);
 
-        // Boutons
-        Button btn1 = new Button("Back to menu");
-        Button btn2 = new Button("Refresh");
-        Button btn3 = new Button("Clear History");
+        HBox bottom = new HBox();
+        bottom.setId("bottom");
+        bottom.setAlignment(Pos.CENTER);
+        bottom.setSpacing(20);
+        bottom.setPadding(new Insets(10, 24, 10, 24));
 
-        // Conteneur horizontal pour les boutons
-        HBox buttonsBox = new HBox();
-        buttonsBox.setAlignment(Pos.CENTER); // centré horizontalement
-        buttonsBox.setSpacing(20);           // espace entre les boutons
-        buttonsBox.setPadding(new Insets(10, 24, 10, 24)); // espace au-dessus
+        Button button = new Button("BACK");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
 
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
 
-        // taille bouttons
+        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
 
-        btn1.setPrefWidth(150);
-        btn2.setPrefWidth(120);
-        btn3.setPrefWidth(150);
+        bottom.getChildren().add(button);
 
-        // custumisation des bouttons
+        button = new Button("REFRESH");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
 
-        btn1.setStyle(
-                "-fx-background-color: #0F4C5C;" +   // rouge
-                        "-fx-text-fill: white;" +            // texte blanc
-                        "-fx-font-size: 14px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-padding: 10 20;" +              // hauteur / largeur
-                        "-fx-background-radius: 8;"           // coins arrondis
-        );
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
 
-        btn2.setStyle(
-                "-fx-background-color: #e74c3c;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-padding: 10 20;" +
-                        "-fx-background-radius: 8;"
-        );
+        button.setOnMouseClicked(event -> {Remote.refreshButtonCliqued();});
 
-        btn3.setStyle(
-                "-fx-background-color: #0F4C5C;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-padding: 10 20;" +
-                        "-fx-background-radius: 8;"
-        );
+        bottom.getChildren().add(button);
 
-        root.setStyle("-fx-background-color: #FFDAB9;");
+        button = new Button("CLEAR");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
 
-        btn1.setOnMouseClicked(event -> { Remote.backToMenuButtonCliqued();});
-        btn2.setOnMouseClicked(event -> { Remote.refreshButtonCliqued();});
-        btn3.setOnMouseClicked(event -> { Remote.clearHistoryButtonCliqued();});
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
 
+        button.setOnMouseClicked(event -> {Remote.clearHistoryButtonCliqued();});
 
+        bottom.getChildren().add(button);
 
-
-
-
-        buttonsBox.getChildren().addAll(btn1, btn2, btn3);
-
-        // exemple
         showInfo("2025-12-22", "Nizar", "Nizar:0 et Taha: 26");
         showInfo("2025-12-23", "Taha", "Nizar:23 et Taha: 5");
-        hideInfo(1);
 
-
-
-        // Ajout au layout
-        root.getChildren().addAll(text, table, buttonsBox);
-
+        root.getChildren().addAll(text, table, bottom);
 
     }
 
 
-    public void open() {
+    public void open(Runnable onFinished) {
 
-        Message.inform("// Track chapter opened!");
+        Pane bottom = (Pane) root.lookup("#bottom");
+
+        List<Node> children = bottom.getChildren();
+
+        Animation.fadein(children, 0, 1, 0.5, 0.1, onFinished);
 
     }
 
-    public void close() {
+    public void close(Runnable onFinished) {
 
-        Message.inform("// Track chapter closed!");
+        Pane bottom = (Pane) root.lookup("#bottom");
+
+        List<Node> children = bottom.getChildren();
+
+        Animation.fadeout(children, children.size() - 1, -1, 0.5, 0.1, onFinished);
 
     }
 

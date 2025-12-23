@@ -1,21 +1,20 @@
 package viewer.interaction;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import manager.Animation;
+import javafx.scene.control.Button;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import controller.Remote;
-import javafx.scene.layout.*;
-import javafx.geometry.Pos;
-
-import javafx.scene.control.Button;
-import javafx.scene.text.Text;
+import manager.Animation;
 import manager.Palette;
 
 import java.util.List;
 
-public class Menu extends Chapter {
+public class Config extends Chapter {
 
-    public Menu() {
+    public Config() {
 
         VBox root = new VBox();
         root.setId("root");
@@ -31,27 +30,32 @@ public class Menu extends Chapter {
         top.setAlignment(Pos.CENTER);
         root.getChildren().add(top);
 
-        VBox bottom = new VBox();
+        HBox middle = new HBox();
+        middle.setId("middle");
+        middle.setAlignment(Pos.CENTER);
+        middle.setSpacing(5);
+        root.getChildren().add(middle);
+
+        HBox bottom = new HBox();
         bottom.setId("bottom");
         bottom.setAlignment(Pos.CENTER);
-        bottom.setSpacing(5);
         root.getChildren().add(bottom);
 
         // TITLE TEXT
 
         Text text = new Text();
         text.setId("title");
-        text.setText("DICE PEACH");
+        text.setText("CONFIGURATION");
         text.setFill(Palette.colorTitle());
         text.setFont(Palette.fontTitle());
 
         top.getChildren().add(text);
 
-        // PLAY BUTTON
+        // DECREASE BUTTON
 
         Button button = new Button();
-        button.setId("play");
-        button.setText("PLAY");
+        button.setId("decrease");
+        button.setText("<<");
         button.setTextFill(Palette.colorInactive());
         button.setFont(Palette.fontInactive());
         button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
@@ -59,15 +63,25 @@ public class Menu extends Chapter {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.playButtonClicked();});
+        //button.setOnMouseClicked(event -> {Remote.playButtonClicked();});
 
-        bottom.getChildren().add(button);
+        middle.getChildren().add(button);
 
-        // BUNDLE BUTTON
+        // COUNT BUTTON
+
+        text = new Text();
+        text.setId("count");
+        text.setText("2");
+        text.setFill(Palette.colorTitle());
+        text.setFont(Palette.fontTitle());
+
+        middle.getChildren().add(text);
+
+        // INCREASE BUTTON
 
         button = new Button();
-        button.setId("bundle");
-        button.setText("BUNDLE");
+        button.setId("increase");
+        button.setText(">>");
         button.setTextFill(Palette.colorInactive());
         button.setFont(Palette.fontInactive());
         button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
@@ -75,15 +89,15 @@ public class Menu extends Chapter {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.bundleButtonClicked();});
+        //button.setOnMouseClicked(event -> {Remote.trackButtonClicked();});
 
-        bottom.getChildren().add(button);
+        middle.getChildren().add(button);
 
-        // TRACK BUTTON
+        // BACK BUTTON
 
         button = new Button();
-        button.setId("track");
-        button.setText("TRACK");
+        button.setId("back");
+        button.setText("BACK");
         button.setTextFill(Palette.colorInactive());
         button.setFont(Palette.fontInactive());
         button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
@@ -91,41 +105,13 @@ public class Menu extends Chapter {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.trackButtonClicked();});
+        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
 
         bottom.getChildren().add(button);
 
-        // OPTIONS BUTTON
+        // START BUTTON
 
-        button = new Button();
-        button.setId("options");
-        button.setText("OPTIONS");
-        button.setTextFill(Palette.colorInactive());
-        button.setFont(Palette.fontInactive());
-        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
 
-        button.setOnMouseEntered(Animation::activate);
-        button.setOnMouseExited(Animation::inactivate);
-
-        button.setOnMouseClicked(event -> {Remote.optionsButtonClicked();});
-
-        bottom.getChildren().add(button);
-
-        // QUIT BUTTON
-
-        button = new Button();
-        button.setId("quit");
-        button.setText("QUIT");
-        button.setTextFill(Palette.colorInactive());
-        button.setFont(Palette.fontInactive());
-        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
-
-        button.setOnMouseEntered(Animation::activate);
-        button.setOnMouseExited(Animation::inactivate);
-
-        button.setOnMouseClicked(event -> {Remote.quitButtonClicked();});
-
-        bottom.getChildren().add(button);
 
     }
 

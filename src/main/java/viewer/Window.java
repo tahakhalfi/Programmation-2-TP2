@@ -1,12 +1,9 @@
 package viewer;
 
-import viewer.interaction.Place;
-import viewer.interaction.Menu;
-import viewer.interaction.Chapter;
+import viewer.interaction.*;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import viewer.interaction.Track;
 
 import java.util.HashMap;
 
@@ -21,10 +18,12 @@ public class Window {
         chapters = new HashMap<>();
 
         Chapter menu = new Menu();
+        Chapter config = new Config();
         Chapter place = new Place();
         Chapter track = new Track();
 
         chapters.put("menu", menu);
+        chapters.put("config", config);
         chapters.put("place", place);
         chapters.put("track", track);
 
@@ -76,7 +75,11 @@ public class Window {
     }
 
     public static void advance(String name, Runnable onFinished) {
-        conceal(() -> {reveal(name, onFinished);});
+
+        conceal(() -> {
+            reveal(name, onFinished);
+        });
+
     }
 
     public static void reveal(String name, Runnable onFinished) {

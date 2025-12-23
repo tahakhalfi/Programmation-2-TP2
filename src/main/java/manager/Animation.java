@@ -3,6 +3,8 @@ package manager;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -90,6 +92,24 @@ public class Animation {
         });
 
         pause.play();
+
+    }
+
+    public static void activate(MouseEvent event) {
+
+        Button button = (Button) event.getSource();
+
+        button.setTextFill(Palette.colorActive());
+        button.setFont(Palette.fontActive());
+
+    }
+
+    public static void inactivate(MouseEvent event) {
+
+        Button button = (Button) event.getSource();
+
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
 
     }
 
