@@ -95,7 +95,15 @@ public class Mechanism {
 
         active = false;
 
+        eval();
+
         purge();
+
+    }
+
+    public static void eval() {
+
+
 
     }
 

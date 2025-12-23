@@ -11,7 +11,9 @@ import javafx.scene.text.Text;
 public class Place extends Chapter {
 
     public Place() {
+
         VBox root = new VBox();
+
         super(root);
 
         // Tout le contenu verticalement centré et aligné en haut
@@ -23,6 +25,7 @@ public class Place extends Chapter {
         Text currentPlayerText = new Text("Current Player: Test");
         currentPlayerText.setFont(Font.font("Segoe UI", 28));
         currentPlayerText.setFill(Color.web("#2c3e50"));
+
         // deuxieme texte
         Text currentScoreText = new Text("Current Score: 0");
         currentScoreText.setFont(Font.font("Segoe UI", 18));

@@ -7,11 +7,11 @@ import javafx.stage.Stage;
 
 import viewer.Window;
 
-public class GUILauncher extends Application {
+public class CLTLauncher extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Window.initiate(stage);
+        Window.configure(stage);
         Window.open(null);
     }
 

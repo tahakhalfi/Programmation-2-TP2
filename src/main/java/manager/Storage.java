@@ -2,48 +2,96 @@ package manager;
 
 import java.nio.file.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Storage {
-    private char separator;
 
-    public Storage(char separator){
-        this.separator = separator;
+    private static LinkedList<String> buffer = new LinkedList<>();
+
+    private static final String CORE = "sto/main/save/";
+    private static final char SEPERATOR = ',';
+
+    public static void insert(String data) {
+        buffer.addLast(data);
     }
 
-    // lecture d un fichier csv et retourne une liste de lignes
-    public List<List<String>> read(String filename) throws Exception {
-        List<List<String>> data = new ArrayList<>();
+    public static void insert(String[] datas) {
+        for (String data: datas) {
+            insert(data);
+        }
+    }
 
-        // lecture de toutes les lignes du fichier
-        List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
+    public static void extract() {
+        buffer.removeLast();
+    }
 
-        // separer chaque ligne selon le separateur
-        for (String line : lines) {
-            String[] parts = line.split(String.valueOf(separator));
-            List<String> row = new ArrayList<>();
+    public static void release() {
+        buffer.clear();
+    }
 
-            for (String part : parts) {
-                row.add(part.trim()); // trim() permet d'enlever les espaces
-            }
-            data.add(row);
+    public static void engrave(String name) {
+
+        List<String> content = read(name);
+
+        if (content == null) {
+            return;
         }
 
-        return data;
+        content.addLast(String.join(String.valueOf(SEPERATOR), buffer));
+
+        write(name, content);
+
     }
 
-    // ecriture des donnes dans un fichier CSV
+    public static void stamp(String name) {
+        engrave(name);
+        release();
+    }
 
-    public void write(String filename, List<List<String>> data) throws Exception {
-        List<String> lines = new ArrayList<>();
+    public static List<String> scan(String line) {
+        return List.of(line.split(String.valueOf(SEPERATOR)));
+    }
 
-        // construction de chaque ligne
-        for (List<String> row : data) {
-            String line = String.join(String.valueOf(separator), row);
-            lines.add(line);
+    public static List<String> read(String name) {
+
+        String route = CORE + name;
+
+        try {
+            return Files.readAllLines(Paths.get(route), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        // ecriture de toutes les lignes dans le fichier
-        Files.write(Paths.get(filename), lines, StandardCharsets.UTF_8);
+        return null;
+
     }
+
+    public static void write(String name, List<String> content) {
+
+        String route = CORE + name;
+
+        try {
+            Files.write(Paths.get(route), content, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /*
+    for (String line : lines) {
+        String[] parts = line.split(String.valueOf(SEPERATOR));
+        List<String> row = new ArrayList<>(Arrays.asList(parts));
+        data.add(row);
+    }
+    */
+
+    /*
+    for (List<String> row : data) {
+        String line = String.join(String.valueOf(SEPERATOR), row);
+        lines.add(line);
+    }
+    */
 }

@@ -1,5 +1,7 @@
 package reviewer;
 
+import manager.Message;
+import manager.Storage;
 import modeler.Machine;
 
 import java.util.List;
@@ -11,17 +13,15 @@ public class MachineTest {
         try {
 
             // TEST saveInfo
-            int index = Machine.saveInfo(
-                    "Nizar le Boss",
-                    "4 vs 5"
+            Machine.saveInfo(
+                    "Nizar le Nul",
+                    "0"
             );
 
-            System.out.println("Ligne écrite à l'index : " + index);
-
             // TEST loadInfo
-            List<String> ligne = Machine.loadInfo(index);
+            List<String> ligne = Machine.loadInfo(0);
 
-            System.out.println("Ligne lue : " + ligne);
+            Message.state("// Ligne lue : " + ligne);
 
         } catch (Exception e) {
             e.printStackTrace();

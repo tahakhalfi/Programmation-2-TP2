@@ -16,7 +16,7 @@ public class Window {
     private static Scene scene;
     private static HashMap<String, Chapter> chapters;
 
-    public static void initiate(Stage givenStage) {
+    public static void configure(Stage givenStage) {
 
         chapters = new HashMap<>();
 
