@@ -6,8 +6,6 @@ import viewer.classes.pages.Track;
 
 public class Remote {
 
-    private static final Machine machine = new Machine();
-
     public static void playButtonClicked() {
         Window.advance("place", null);
     }

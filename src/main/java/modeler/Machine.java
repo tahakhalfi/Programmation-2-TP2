@@ -11,7 +11,7 @@ public class Machine {
 
     // saveInfo(winner, scores) méthode qui prend information et l ecrit dans fichier
     // et retourne l index de la ligne ecrite
-    public int saveInfo(String winner, String scores) throws Exception {
+    public static int saveInfo(String winner, String scores) throws Exception {
 
         String date = Chronologue.date();
 
@@ -43,7 +43,7 @@ public class Machine {
 
     // loadInfo(index) methode qui prend un index et retourne la ligne en cet index
 
-    public List<String> loadInfo(int index) throws Exception {
+    public static List<String> loadInfo(int index) throws Exception {
 
         Storage csv = new Storage(';');
         String filename = "history.csv";

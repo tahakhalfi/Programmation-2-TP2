@@ -7,10 +7,9 @@ public class MachineTest {
     public static void main(String[] args) {
 
         try {
-            Machine machine = new Machine();
 
             // TEST saveInfo
-            int index = machine.saveInfo(
+            int index = Machine.saveInfo(
                     "Nizar le Boss",
                     "4 vs 5"
             );
@@ -18,7 +17,7 @@ public class MachineTest {
             System.out.println("Ligne écrite à l'index : " + index);
 
             // TEST loadInfo
-            List<String> ligne = machine.loadInfo(index);
+            List<String> ligne = Machine.loadInfo(index);
 
             System.out.println("Ligne lue : " + ligne);
 
