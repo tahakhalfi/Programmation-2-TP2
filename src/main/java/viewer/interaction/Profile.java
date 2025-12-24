@@ -11,13 +11,20 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import manager.Animation;
 import manager.Palette;
+import modeler.usage.Account;
 import viewer.Page;
 
 import java.util.List;
 
 public class Profile extends Page {
+    // ajout
+    private Text nameText;
+    private Text levelText;
+    private Text experienceText;
 
     public void display() {
+
+
 
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -38,20 +45,27 @@ public class Profile extends Page {
         form.setAlignment(Pos.CENTER);
         form.setSpacing(15);
 
-        Text name = new Text("NAME: ");
-        name.setId("pseudo");
-        name.setFill(Palette.colorComment());
-        name.setFont(Palette.fontComment());
+        nameText = new Text();
+        levelText = new Text();
+        experienceText = new Text();
 
-        Text level = new Text("LEVEL: ");
-        level.setId("level");
-        level.setFill(Palette.colorComment());
-        level.setFont(Palette.fontComment());
+        nameText.setId("pseudo");
+        levelText.setId("level");
+        experienceText.setId("experience");
 
-        Text experience = new Text("EXPERIENCE:");
-        experience.setId("experience");
-        experience.setFill(Palette.colorComment());
-        experience.setFont(Palette.fontComment());
+        nameText.setFill(Palette.colorComment());
+        levelText.setFill(Palette.colorComment());
+        experienceText.setFill(Palette.colorComment());
+
+        nameText.setFont(Palette.fontComment());
+        levelText.setFont(Palette.fontComment());
+        experienceText.setFont(Palette.fontComment());
+
+        // update profile
+
+        updateProfile();
+
+
 
         // button
 
@@ -73,7 +87,9 @@ public class Profile extends Page {
 
         bottom.getChildren().add(button);
 
-        form.getChildren().addAll(name, level, experience);
+        // changement
+
+        form.getChildren().addAll(nameText, levelText, experienceText);
 
         root.getChildren().addAll(text, profilePicture, form, bottom);
 
@@ -100,5 +116,14 @@ public class Profile extends Page {
         Animation.fadeout(children, children.size() - 1, -1, 0.5, 0.1, onFinished);
 
     }
+
+    private void updateProfile() {
+
+        nameText.setText("NAME: " + Account.getName());
+        levelText.setText("LEVEL: " + Account.getLevel());
+        experienceText.setText("EXPERIENCE: " + Account.getExperience());
+
+    }
+
 
 }
