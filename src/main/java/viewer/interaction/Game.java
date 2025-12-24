@@ -12,13 +12,21 @@ import manager.Animation;
 import manager.Palette;
 import viewer.Page;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Game extends Page {
 
-    private ArrayList<ImageView> selections;
+    private static final ArrayList<Image> FIGURES = new ArrayList<>(Arrays.asList(
+            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice1.png"))),
+            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice2.png"))),
+            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice3.png"))),
+            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice4.png"))),
+            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice5.png"))),
+            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice6.png")))
+    ));
+
+    private ArrayList<Button> selections;
+    private HashMap<String, String> trajectories;
 
     public void display() {
 
@@ -196,17 +204,32 @@ public class Game extends Page {
 
         selections = new ArrayList<>(6);
 
-        for (int index = 1; index <= 6; index++) {
+        for (int i = 0; i < 6; i++) {
 
-            ImageView selection = new ImageView(new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice" + index + ".png"))));
+            Image figure = FIGURES.get(i);
+
+            ImageView selection = new ImageView(figure);
             selection.setFitWidth(50);
             selection.setFitHeight(50);
             selection.setPreserveRatio(true);
             selection.setSmooth(true);
 
-            selections.add(selection);
+            button = new Button();
+            button.setGraphic(selection);
+            button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
+
+            int index = i;
+
+            button.setOnMouseClicked(event -> {Remote.selectionButtonClicked(index);});
+
+            selections.add(button);
 
         }
+
+        trajectories = new HashMap<>();
+
+        trajectories.put("in", "trans");
+        trajectories.put("trans", "in");
 
         super.setRoot(root);
 
@@ -256,7 +279,7 @@ public class Game extends Page {
                 continue;
             }
 
-            ImageView selection = selections.get(index);
+            Button selection = selections.get(index);
 
             if (selection == null || selection.getParent() == area) {
                 continue;
@@ -282,7 +305,7 @@ public class Game extends Page {
             return;
         }
 
-        ImageView selection = selections.get(index);
+        Button selection = selections.get(index);
 
         if (selection == null || selection.getParent() == area) {
             return;
@@ -310,7 +333,7 @@ public class Game extends Page {
                 continue;
             }
 
-            ImageView selection = selections.get(index);
+            Button selection = selections.get(index);
 
             if (selection == null || selection.getParent() != area) {
                 continue;
@@ -336,7 +359,7 @@ public class Game extends Page {
             return;
         }
 
-        ImageView selection = selections.get(index);
+        Button selection = selections.get(index);
 
         if (selection == null || selection.getParent() != area) {
             return;

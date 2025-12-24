@@ -9,8 +9,8 @@ public class APPLauncher {
     }
 
     public static void launch(Class<APPLauncher> ownClass, String[] args) {
-        CLTLauncher.launch(CLTLauncher.class, args);
         SVRLauncher.launch(SVRLauncher.class, args);
+        CLTLauncher.launch(CLTLauncher.class, args);
     }
 
 }

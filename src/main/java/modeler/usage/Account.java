@@ -15,12 +15,6 @@ public class Account {
 
     private static final int EXPERIENCING = 50;
 
-    public static void main(String[] args){
-        savein("Pedro", 4, 150);
-        savein("Magno", 2, 100);
-        login("Pedro");
-    }
-
     public static List<String> lookin(String givenName) {
 
         List<String> content = Storage.read("details.csv");
@@ -40,6 +34,18 @@ public class Account {
         }
 
         return null;
+    }
+
+    public static void enterin() {
+
+        String givenName = "Noname";
+
+        if (checkin(givenName)) {
+            login(givenName);
+        } else {
+            signin(givenName);
+        }
+
     }
 
     public static boolean checkin(String givenName) {
@@ -92,11 +98,11 @@ public class Account {
 
     }
 
-    public static void savein(String givenName, int givenLevel, int givenExperience) {
+    public static void savein() {
 
-        Storage.insert(givenName);
-        Storage.insert(givenLevel + "");
-        Storage.insert(givenExperience + "");
+        Storage.insert(name);
+        Storage.insert(String.valueOf(level));
+        Storage.insert(String.valueOf(experience));
 
         Storage.stamp("details.csv");
 

@@ -1,6 +1,7 @@
 package controller;
 
 import modeler.game.Mechanism;
+import modeler.usage.Account;
 import viewer.Window;
 import viewer.interaction.Config;
 import viewer.interaction.Track;
@@ -20,7 +21,11 @@ public class Remote {
     }
 
     public static void quitButtonClicked() {
+
+        Account.savein();
+
         Window.close(null);
+
     }
 
     public static void decreaseButtonClicked() {
@@ -50,7 +55,17 @@ public class Remote {
     }
 
     public static void startButtonClicked() {
+
+        Mechanism.start();
+
         Window.advance("game", null);
+
+    }
+
+    public static void selectionButtonClicked(int index) {
+
+        Mechanism.select(index);
+
     }
 
     public static void doneButtonClicked() {

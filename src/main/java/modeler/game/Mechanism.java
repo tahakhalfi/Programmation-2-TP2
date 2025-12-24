@@ -2,11 +2,8 @@ package modeler.game;
 
 import modeler.usage.Account;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
-import java.util.List;
 import java.util.random.RandomGenerator;
 
 public class Mechanism {
@@ -14,21 +11,26 @@ public class Mechanism {
     private static LinkedList<Player> players = new LinkedList<>();
     private static int scale = 1;
 
+    private static final int MIN_PLAYERS = 1;
+    private static final int MAX_PLAYERS = 6;
+
     private static boolean active = false;
     private static int turn = -1;
 
-    private static HashMap<String, LinkedList<Integer>> groups = new HashMap<>(3);
-    private static HashMap<Integer, Integer> dices = new HashMap<>(6);
+    private static HashMap<Integer, String> sections = new HashMap<>(6);
+    private static HashMap<Integer, Integer> values = new HashMap<>(6);
+
+    private static final int QUANTITY = 6;
 
     public static int insert() {
-        if (scale < 6) {
+        if (scale < MAX_PLAYERS) {
             scale += 1;
         }
         return scale;
     }
 
     public static int extract() {
-        if (scale > 1) {
+        if (scale > MIN_PLAYERS) {
             scale -= 1;
         }
         return scale;
@@ -50,54 +52,74 @@ public class Mechanism {
         active = true;
         turn = 0;
 
+        for (int index = 0; index < QUANTITY; index++) {
+            values.put(index, index + 1);
+        }
+
         move();
 
     }
 
     public static void move() {
 
-        groups.get("in").clear();
-        groups.get("trans").clear();
-        groups.get("out").clear();
-
-        List<Integer> group = groups.get("in");
-
-        for (int i = 0; i < 6; i++) {
-            group.add(i);
+        for (int index = 0; index < QUANTITY; index++) {
+            sections.put(index, "in");
         }
+
+        shuffle();
 
     }
 
     public static void shuffle() {
 
-        List<Integer> group = groups.get("in");
+        for (int index = 0; index < QUANTITY; index++) {
 
-        for (int i = 0; i < group.size(); i++) {
-            dices.replace(group.get(i), RandomGenerator.getDefault().nextInt(1, 7));
+            String section = sections.get(index);
+
+            if (!section.equals("in")) {
+                continue;
+            }
+
+            values.replace(index, RandomGenerator.getDefault().nextInt(1, 7));
+
         }
 
     }
 
-    public static void select(String section, Integer index) {
+    public static void select(int index) {
 
-        List<Integer> group = groups.get(section);
+        sections.replace(index, "trans");
 
     }
 
     public static void pass() {
 
-        int rest = groups.get("in").size();
+        int rest = 0;
+
+        for (int index = 0; index < QUANTITY; index++) {
+
+            String section = sections.get(index);
+
+            if (!section.equals("in")) {
+                continue;
+            }
+
+            rest += 1;
+
+        }
 
         if (rest == 0) {
 
-            int next = turn + 1;
+            turn += 1;
 
-            if (next >= players.size()) {
+            if (turn >= players.size()) {
+
                 end();
+
             } else {
-                turn = next;
+
                 move();
-                shuffle();
+
             }
 
         } else {
@@ -110,10 +132,6 @@ public class Mechanism {
 
     public static void end() {
 
-    }
-
-    public static boolean getActive() {
-        return active;
     }
 
     public static int getTurn() {
@@ -129,7 +147,7 @@ public class Mechanism {
     }
 
     public static Player getControl() {
-        return getPlayer(turn);
+        return players.get(turn);
     }
 
 }

@@ -70,8 +70,13 @@ public class Window {
     public static void close(Runnable onFinished) {
 
         conceal(() -> {
+
             stage.hide();
-            onFinished.run();
+
+            if (onFinished != null) {
+                onFinished.run();
+            }
+
         });
 
     }
