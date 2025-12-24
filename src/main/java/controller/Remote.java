@@ -12,7 +12,7 @@ public class Remote {
     }
 
     public static void profileButtonClicked() {
-
+        Window.advance("profile", null);
     }
 
     public static void trackButtonClicked() {

@@ -16,9 +16,7 @@ public class Profile extends Page {
         root.setSpacing(5);
         root.setBackground(new Background(new BackgroundFill(Palette.colorBackground(), null, null)));
 
-
-
-        super.setRoot(null);
+        super.setRoot(root);
 
     }
 

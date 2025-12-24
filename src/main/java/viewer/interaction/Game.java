@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import manager.Animation;
+import manager.Message;
 import manager.Palette;
 import viewer.Page;
 
@@ -218,11 +219,23 @@ public class Game extends Page {
 
         place("in", List.of(chosens));
 
+        if (onFinished != null) {
+            onFinished.run();
+        }
+
     }
 
     public void close(Runnable onFinished) {
 
+        Integer[] chosens = {1, 2, 3, 4, 5, 6};
 
+        place("in", List.of(chosens));
+        place("trans", List.of(chosens));
+        place("out", List.of(chosens));
+
+        if (onFinished != null) {
+            onFinished.run();
+        }
 
     }
 
@@ -238,7 +251,7 @@ public class Game extends Page {
 
         for (int i = 0; i < indexes.size(); i++) {
 
-            int index = indexes.get(i);
+            int index = indexes.get(i) - 1;
 
             if (index < 0 || index > selections.size() - 1) {
                 continue;
@@ -280,9 +293,57 @@ public class Game extends Page {
 
     }
 
-    public void retrieve(String section) {
+    public void retrieve(String section, List<Integer> indexes) {
 
+        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
 
+        if (territory == null) {
+            return;
+        }
+
+        Pane area = (Pane) territory.lookup("#area");
+
+        for (int i = 0; i < indexes.size(); i++) {
+
+            int index = indexes.get(i) - 1;
+
+            if (index < 0 || index > selections.size() - 1) {
+                continue;
+            }
+
+            ImageView selection = selections.get(index);
+
+            if (selection == null || selection.getParent() != area) {
+                continue;
+            }
+
+            area.getChildren().remove(selection);
+
+        }
+
+    }
+
+    public void retrieve(String section, int index) {
+
+        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
+
+        if (territory == null) {
+            return;
+        }
+
+        Pane area = (Pane) territory.lookup("#area");
+
+        if (index < 0 || index > selections.size() - 1) {
+            return;
+        }
+
+        ImageView selection = selections.get(index);
+
+        if (selection == null || selection.getParent() != area) {
+            return;
+        }
+
+        area.getChildren().remove(selection);
 
     }
 
