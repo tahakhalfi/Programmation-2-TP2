@@ -11,16 +11,12 @@ public class Remote {
         Window.advance("config", null);
     }
 
-    public static void bundleButtonClicked() {
+    public static void profileButtonClicked() {
 
     }
 
     public static void trackButtonClicked() {
         Window.advance("track", null);
-    }
-
-    public static void optionsButtonClicked() {
-
     }
 
     public static void quitButtonClicked() {

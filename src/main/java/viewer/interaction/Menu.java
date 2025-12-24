@@ -60,11 +60,11 @@ public class Menu extends Page {
 
         bottom.getChildren().add(button);
 
-        // BUNDLE BUTTON
+        // PROFILE BUTTON
 
         button = new Button();
-        button.setId("bundle");
-        button.setText("BUNDLE");
+        button.setId("profile");
+        button.setText("PROFILE");
         button.setTextFill(Palette.colorInactive());
         button.setFont(Palette.fontInactive());
         button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
@@ -72,7 +72,7 @@ public class Menu extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.bundleButtonClicked();});
+        button.setOnMouseClicked(event -> {Remote.profileButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -89,22 +89,6 @@ public class Menu extends Page {
         button.setOnMouseExited(Animation::inactivate);
 
         button.setOnMouseClicked(event -> {Remote.trackButtonClicked();});
-
-        bottom.getChildren().add(button);
-
-        // OPTIONS BUTTON
-
-        button = new Button();
-        button.setId("options");
-        button.setText("OPTIONS");
-        button.setTextFill(Palette.colorInactive());
-        button.setFont(Palette.fontInactive());
-        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
-
-        button.setOnMouseEntered(Animation::activate);
-        button.setOnMouseExited(Animation::inactivate);
-
-        button.setOnMouseClicked(event -> {Remote.optionsButtonClicked();});
 
         bottom.getChildren().add(button);
 
