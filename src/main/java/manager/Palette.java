@@ -10,6 +10,8 @@ public class Palette {
     public static final Color COLOR_CLAIRE = Color.rgb(255, 240, 200);
     public static final Color COLOR_PEACH = Color.rgb(255, 220, 135);
     public static final Color COLOR_ORANGE = Color.rgb(255, 185, 0);
+    // ajout
+    public static final Color COLOR_BLACK = Color.rgb(0,0,0);
 
     public static final Font FONT_NORMAL = Font.font("Franklin Gothic Demi", 18);
     public static final Font FONT_SMALLER = Font.font(FONT_NORMAL.getName(),16);
@@ -44,6 +46,10 @@ public class Palette {
         return COLOR_CLAIRE;
     }
 
+    // Ajout
+
+    public static Color colorText(){ return COLOR_BLACK; }
+
     public static Font fontTitle() {
         return FONT_EXTREME;
     }
@@ -59,5 +65,7 @@ public class Palette {
     public static Font fontActive() {
         return FONT_BIGGER;
     }
+
+    // ajout
 
 }
