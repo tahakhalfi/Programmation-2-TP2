@@ -70,6 +70,12 @@ public class Remote {
         track.clearInfo();
     }
 
+    // ajout
+
+    public static void backProfileButtonClicked(){
+        Window.advance("menu",null);
+    }
+
 }
 
 

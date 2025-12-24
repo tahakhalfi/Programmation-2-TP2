@@ -1,14 +1,19 @@
 package viewer.interaction;
 
+import controller.Remote;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import manager.Animation;
 import manager.Palette;
 import viewer.Page;
+
+import java.util.List;
 
 public class Profile extends Page {
 
@@ -48,9 +53,29 @@ public class Profile extends Page {
         experience.setFill(Palette.colorComment());
         experience.setFont(Palette.fontComment());
 
+        // button
+
+        HBox bottom = new HBox();
+        bottom.setId("bottom");
+        bottom.setAlignment(Pos.CENTER);
+        bottom.setSpacing(20);
+        bottom.setPadding(new Insets(10, 24, 10, 24));
+
+        Button button = new Button("BACK");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
+
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
+
+        button.setOnMouseClicked(event -> { Remote.backProfileButtonClicked();});
+
+        bottom.getChildren().add(button);
+
         form.getChildren().addAll(name, level, experience);
 
-        root.getChildren().addAll(text, profilePicture, form);
+        root.getChildren().addAll(text, profilePicture, form, bottom);
 
         super.setRoot(root);
 
@@ -58,9 +83,21 @@ public class Profile extends Page {
 
     public void open(Runnable onFinished) {
 
+        Pane bottom = (Pane) root.lookup("#bottom");
+
+        List<Node> children = bottom.getChildren();
+
+        Animation.fadein(children, 0, 1, 0.5, 0.1, onFinished);
+
     }
 
     public void close(Runnable onFinished) {
+
+        Pane bottom = (Pane) root.lookup("#bottom");
+
+        List<Node> children = bottom.getChildren();
+
+        Animation.fadeout(children, children.size() - 1, -1, 0.5, 0.1, onFinished);
 
     }
 
