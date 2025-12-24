@@ -31,7 +31,7 @@ public class Storage {
         buffer.clear();
     }
 
-    public static void engrave(String name) {
+    public static void engrave(String name, Integer index) {
 
         List<String> content = read(name);
 
@@ -39,14 +39,28 @@ public class Storage {
             return;
         }
 
-        content.addLast(String.join(String.valueOf(SEPERATOR), buffer));
+        if (index != null) {
+
+            content.set(index, String.join(
+                    String.valueOf(SEPERATOR),
+                    buffer
+            ));
+
+        } else {
+
+            content.addLast(String.join(
+                    String.valueOf(SEPERATOR),
+                    buffer
+            ));
+
+        }
 
         write(name, content);
 
     }
 
-    public static void stamp(String name) {
-        engrave(name);
+    public static void stamp(String name, Integer index) {
+        engrave(name, index);
         release();
     }
 

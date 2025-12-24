@@ -13,7 +13,7 @@ public class Machine {
         Storage.insert(winner);
         Storage.insert(scores);
 
-        Storage.stamp("history.csv");
+        Storage.stamp("history.csv", null);
 
     }
 

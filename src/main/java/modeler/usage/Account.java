@@ -36,9 +36,15 @@ public class Account {
         return null;
     }
 
-    public static void enterin() {
+    public static boolean checkin(String givenName) {
 
-        String givenName = "Noname";
+        List<String> data = lookin(givenName);
+
+        return data != null;
+
+    }
+
+    public static void enterin(String givenName) {
 
         if (checkin(givenName)) {
             login(givenName);
@@ -48,17 +54,26 @@ public class Account {
 
     }
 
-    public static boolean checkin(String givenName) {
+    public static void signin(String givenName) {
 
         List<String> data = lookin(givenName);
 
-        return data != null;
+        if (data != null) {
+            return;
+        }
 
-    }
+        int givenLevel = 1;
+        int givenExperience = 0;
 
-    public static void signin(String givenName) {
+        Storage.release();
 
-        loadin(givenName, 1, 0);
+        Storage.insert(givenName);
+        Storage.insert(String.valueOf(givenLevel));
+        Storage.insert(String.valueOf(givenExperience));
+
+        Storage.stamp("details.csv", null);
+
+        loadin(givenName, givenLevel, givenExperience);
 
     }
 
@@ -70,21 +85,8 @@ public class Account {
             return;
         }
 
-        int givenLevel = 0;
-        int givenExperience = 0;
-
-        if (data != null && data.size() == 3) {
-            givenLevel = Integer.parseInt(data.get(1));
-            givenExperience = Integer.parseInt(data.get(2));
-        } else {
-            Message.fail("// Erreur : joueur introuvable -> " + givenName);
-            return;
-        }
-
-        System.out.println("LOGIN DEBUG");
-        System.out.println("Name: " + givenName);
-        System.out.println("Level: " + givenLevel);
-        System.out.println("XP: " + givenExperience);
+        int givenLevel = Integer.parseInt(data.get(1));
+        int givenExperience = Integer.parseInt(data.get(2));
 
         loadin(givenName, givenLevel, givenExperience);
 
@@ -100,11 +102,31 @@ public class Account {
 
     public static void savein() {
 
+        Storage.release();
+
         Storage.insert(name);
         Storage.insert(String.valueOf(level));
         Storage.insert(String.valueOf(experience));
 
-        Storage.stamp("details.csv");
+        List<String> content = Storage.read("details.csv");
+
+        if (content == null) {
+            return;
+        }
+
+        for (int index = 0; index < content.size(); index++) {
+
+            List<String> data = Storage.scan(content.get(index));
+
+            if (!data.getFirst().equals(name)) {
+                continue;
+            }
+
+            Storage.stamp("details.csv", index);
+
+            break;
+
+        }
 
     }
 
