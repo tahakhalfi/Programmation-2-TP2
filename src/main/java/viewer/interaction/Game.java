@@ -9,7 +9,6 @@ import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import manager.Animation;
-import manager.Message;
 import manager.Palette;
 import viewer.Page;
 

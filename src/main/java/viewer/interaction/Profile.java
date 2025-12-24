@@ -15,7 +15,7 @@ public class Profile extends Page {
     public void display() {
 
         VBox root = new VBox();
-        root.setAlignment(Pos.TOP_CENTER);
+        root.setAlignment(Pos.CENTER);
         root.setSpacing(50);
         root.setBackground(new Background(new BackgroundFill(Palette.colorBackground(), null, null)));
 
@@ -24,41 +24,37 @@ public class Profile extends Page {
         text.setFill(Palette.colorTitle());
         text.setFont(Palette.fontTitle());
 
-        // image profil
-
-        Image profileImage = new Image(
-                getClass().getResourceAsStream("/images/profile_picture.png")
-        );
-
-        ImageView profilePicture = new ImageView(profileImage);
+        ImageView profilePicture = new ImageView(new Image(getClass().getResourceAsStream("/images/profile_picture.png")));
         profilePicture.setFitWidth(200);
         profilePicture.setFitHeight(200);
         profilePicture.setPreserveRatio(true);
 
+        VBox form = new VBox();
+        form.setAlignment(Pos.CENTER);
+        form.setSpacing(15);
+
         Text name = new Text("NAME: ");
         name.setId("pseudo");
-        name.setFill(Palette.colorText());
-        name.setFont(Palette.fontTitle());
+        name.setFill(Palette.colorComment());
+        name.setFont(Palette.fontComment());
 
         Text level = new Text("LEVEL: ");
         level.setId("level");
-        level.setFill(Palette.colorText());
-        level.setFont(Palette.fontTitle());
+        level.setFill(Palette.colorComment());
+        level.setFont(Palette.fontComment());
 
         Text experience = new Text("EXPERIENCE:");
         experience.setId("experience");
-        experience.setFill(Palette.colorText());
-        experience.setFont(Palette.fontTitle());
+        experience.setFill(Palette.colorComment());
+        experience.setFont(Palette.fontComment());
 
+        form.getChildren().addAll(name, level, experience);
 
-        root.getChildren().addAll(text, profilePicture, name, level, experience);
+        root.getChildren().addAll(text, profilePicture, form);
 
         super.setRoot(root);
 
     }
-
-
-
 
     public void open(Runnable onFinished) {
 
