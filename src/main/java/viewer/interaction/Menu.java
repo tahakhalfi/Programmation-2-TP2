@@ -10,18 +10,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import manager.Palette;
+import viewer.Page;
 
 import java.util.List;
 
-public class Menu extends Chapter {
+public class Menu extends Page {
 
-    public Menu() {
+    public void display() {
 
         VBox root = new VBox();
-        root.setId("root");
-
-        super(root);
-
         root.setAlignment(Pos.CENTER);
         root.setSpacing(50);
         root.setBackground(new Background(new BackgroundFill(Palette.colorBackground(), null, null)));
@@ -126,6 +123,8 @@ public class Menu extends Chapter {
         button.setOnMouseClicked(event -> {Remote.quitButtonClicked();});
 
         bottom.getChildren().add(button);
+
+        super.setRoot(root);
 
     }
 

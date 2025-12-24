@@ -11,25 +11,25 @@ public class Window {
 
     private static Stage stage;
     private static Scene scene;
-    private static HashMap<String, Chapter> chapters;
+    private static HashMap<String, Page> pages;
 
     public static void configure(Stage givenStage) {
 
-        chapters = new HashMap<>();
+        pages = new HashMap<>();
 
-        Chapter menu = new Menu();
-        Chapter config = new Config();
-        Chapter place = new Place();
-        Chapter track = new Track();
+        Menu menu = new Menu();
+        Config config = new Config();
+        Game game = new Game();
+        Track track = new Track();
 
-        chapters.put("menu", menu);
-        chapters.put("config", config);
-        chapters.put("place", place);
-        chapters.put("track", track);
+        pages.put("menu", menu);
+        pages.put("config", config);
+        pages.put("game", game);
+        pages.put("track", track);
 
-        Chapter focus = menu;
+        Page focus = menu;
 
-        chapters.put("focus", focus);
+        pages.put("focus", focus);
 
         Scene givenScene = new Scene(
                 focus.getRoot(),
@@ -46,8 +46,8 @@ public class Window {
 
     }
 
-    public static Chapter getChapter(String name) {
-        return chapters.get(name);
+    public static Page getPage(String name) {
+        return pages.get(name);
     }
 
     public static Scene getScene() {
@@ -84,11 +84,11 @@ public class Window {
 
     public static void reveal(String name, Runnable onFinished) {
 
-        Chapter chapter = getChapter(name);
+        Page chapter = getPage(name);
 
         if (chapter != null) {
             scene.setRoot(chapter.getRoot());
-            chapters.replace("focus", chapter);
+            pages.replace("focus", chapter);
             chapter.open(onFinished);
         }
 
@@ -96,10 +96,10 @@ public class Window {
 
     public static void conceal(Runnable onFinished) {
 
-        Chapter focus = getChapter("focus");
+        Page focus = getPage("focus");
 
         if (focus != null) {
-            chapters.replace("focus", null);
+            pages.replace("focus", null);
             focus.close(onFinished);
         }
 

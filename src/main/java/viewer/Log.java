@@ -1,17 +1,17 @@
-package viewer.interaction;
+package viewer;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 // Chaque objet GameHistory = une partie jouée dans le tableau
 
-public class GameHistory {
+public class Log {
     // attributs representant chacune une colonne du tableau
     // StringProperty => javaFX fctionne avec propriete observable
     private final StringProperty date;
     private final StringProperty winner;
     private final StringProperty scores;
 
-    public GameHistory(String date, String winner, String scores) {
+    public Log(String date, String winner, String scores) {
         // SimpleStringProperty est l implementation concrete de StringProperty
         // il devienne alors observable
         this.date = new SimpleStringProperty(date);

@@ -9,18 +9,15 @@ import javafx.scene.text.Text;
 import controller.Remote;
 import manager.Animation;
 import manager.Palette;
+import viewer.Page;
 
 import java.util.List;
 
-public class Config extends Chapter {
+public class Config extends Page {
 
-    public Config() {
+    public void display() {
 
         VBox root = new VBox();
-        root.setId("root");
-
-        super(root);
-
         root.setAlignment(Pos.CENTER);
         root.setSpacing(50);
         root.setBackground(new Background(new BackgroundFill(Palette.colorBackground(), null, null)));
@@ -63,7 +60,7 @@ public class Config extends Chapter {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        //button.setOnMouseClicked(event -> {Remote.playButtonClicked();});
+        button.setOnMouseClicked(event -> {Remote.decreaseButtonClicked();});
 
         middle.getChildren().add(button);
 
@@ -71,7 +68,7 @@ public class Config extends Chapter {
 
         text = new Text();
         text.setId("count");
-        text.setText("2");
+        text.setText("1");
         text.setFill(Palette.colorTitle());
         text.setFont(Palette.fontTitle());
 
@@ -89,7 +86,7 @@ public class Config extends Chapter {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        //button.setOnMouseClicked(event -> {Remote.trackButtonClicked();});
+        button.setOnMouseClicked(event -> {Remote.increaseButtonClicked();});
 
         middle.getChildren().add(button);
 
@@ -105,13 +102,27 @@ public class Config extends Chapter {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
+        button.setOnMouseClicked(event -> {Remote.backConfigButtonClicked();});
 
         bottom.getChildren().add(button);
 
         // START BUTTON
 
+        button = new Button();
+        button.setId("start");
+        button.setText("START");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
 
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
+
+        button.setOnMouseClicked(event -> {Remote.startButtonClicked();});
+
+        bottom.getChildren().add(button);
+
+        super.setRoot(root);
 
     }
 
@@ -132,6 +143,14 @@ public class Config extends Chapter {
         List<Node> children = bottom.getChildren();
 
         Animation.fadeout(children, children.size() - 1, -1, 0.5, 0.1, onFinished);
+
+    }
+
+    public void indicate(int scale) {
+
+        Text text = (Text) root.lookup("#middle").lookup("#count");
+
+        text.setText(String.valueOf(scale));
 
     }
 

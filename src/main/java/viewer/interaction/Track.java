@@ -10,24 +10,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import manager.Animation;
-import manager.Message;
 import manager.Palette;
+import viewer.Log;
+import viewer.Page;
 
 import java.util.List;
 
-public class Track extends Chapter {
+public class Track extends Page {
 
-    private ObservableList<GameHistory> historique;
+    private static ObservableList<Log> historique;
 
-    public Track() {
+    public void display() {
 
         VBox root = new VBox();
-
-        super(root);
-
         root.setAlignment(Pos.TOP_CENTER);
         root.setSpacing(50);
         root.setPadding(new Insets(10, 50, 10, 50));
@@ -38,15 +35,15 @@ public class Track extends Chapter {
         text.setFill(Palette.colorTitle());
         text.setFont(Palette.fontTitle());
 
-        TableView<GameHistory> table = new TableView<>();
+        TableView<Log> table = new TableView<>();
 
-        TableColumn<GameHistory,String> column1 = new TableColumn<>("date");
+        TableColumn<Log,String> column1 = new TableColumn<>("date");
         column1.setCellValueFactory(data -> data.getValue().dateProperty());
 
-        TableColumn<GameHistory,String> column2 = new TableColumn<>("player's scores");
+        TableColumn<Log,String> column2 = new TableColumn<>("player's scores");
         column2.setCellValueFactory(data -> data.getValue().scoresProperty());
 
-        TableColumn<GameHistory,String> column3 = new TableColumn<>("winner");
+        TableColumn<Log,String> column3 = new TableColumn<>("winner");
         column3.setCellValueFactory(data -> data.getValue().winnerProperty());
 
         table.getColumns().addAll(column1, column2, column3);
@@ -74,7 +71,7 @@ public class Track extends Chapter {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
+        button.setOnMouseClicked(event -> {Remote.backTrackButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -107,6 +104,8 @@ public class Track extends Chapter {
 
         root.getChildren().addAll(text, table, bottom);
 
+        super.setRoot(root);
+
     }
 
 
@@ -136,7 +135,7 @@ public class Track extends Chapter {
 
         // Ajout d'une ligne
 
-        historique.add(new GameHistory(
+        historique.add(new Log(
                 date,
                 winner,
                 scores

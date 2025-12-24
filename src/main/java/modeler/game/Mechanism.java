@@ -5,35 +5,33 @@ import java.util.LinkedList;
 public class Mechanism {
 
     private static LinkedList<Player> players = new LinkedList<>();
+    private static int scale = 1;
 
     private static boolean active = false;
     private static int turn = -1;
 
-    public static void place(Player player) {
-
-        players.addLast(player);
-
+    public static int insert() {
+        if (scale < 6) {
+            scale += 1;
+        }
+        return scale;
     }
 
-    public static void eject() {
-
-        players.removeLast();
-
+    public static int extract() {
+        if (scale > 1) {
+            scale -= 1;
+        }
+        return scale;
     }
 
-    public static void purge() {
-
-        players.clear();
-
+    public static int normalize() {
+        scale = 1;
+        return scale;
     }
 
     public static void start() {
 
         if (active) {
-            return;
-        }
-
-        if (players.isEmpty()) {
             return;
         }
 
@@ -94,16 +92,6 @@ public class Mechanism {
         }
 
         active = false;
-
-        eval();
-
-        purge();
-
-    }
-
-    public static void eval() {
-
-
 
     }
 

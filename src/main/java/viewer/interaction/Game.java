@@ -7,34 +7,28 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import viewer.Page;
 
-public class Place extends Chapter {
+public class Game extends Page {
 
-    public Place() {
+    public void display() {
 
         VBox root = new VBox();
-
-        super(root);
-
-        // Tout le contenu verticalement centré et aligné en haut
         root.setAlignment(Pos.TOP_CENTER);
-        root.setSpacing(20); // espacement vertical entre sections
+        root.setSpacing(20);
         root.setPadding(new Insets(20, 50, 20, 50));
 
-        // premier texte
         Text currentPlayerText = new Text("Current Player: Test");
         currentPlayerText.setFont(Font.font("Segoe UI", 28));
         currentPlayerText.setFill(Color.web("#2c3e50"));
 
-        // deuxieme texte
         Text currentScoreText = new Text("Current Score: 0");
         currentScoreText.setFont(Font.font("Segoe UI", 18));
         currentScoreText.setFill(Color.web("#34495e"));
 
-        //  best/worst score place horizontalement
         HBox scoreBox = new HBox();
         scoreBox.setAlignment(Pos.CENTER);
-        scoreBox.setSpacing(50); // espace entre les deux textes
+        scoreBox.setSpacing(50);
 
         Text bestScoreText = new Text("Best Score: -- (no player yet)");
         bestScoreText.setFont(Font.font("Verdana", 14));
@@ -46,9 +40,9 @@ public class Place extends Chapter {
 
         scoreBox.getChildren().addAll(bestScoreText, worstScoreText);
 
-        // Ajout au root
         root.getChildren().addAll(currentPlayerText, currentScoreText, scoreBox);
 
+        super.setRoot(root);
 
     }
 

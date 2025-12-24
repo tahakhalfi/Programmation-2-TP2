@@ -21,8 +21,8 @@ public class Account {
 
     public static void login(String givenName) {
 
-        //int givenLevel = 1;
-        //int givenExperience = 0;
+        int givenLevel = 1;
+        int givenExperience = 0;
 
         statein(
                 givenName,

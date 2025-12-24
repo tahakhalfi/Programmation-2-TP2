@@ -1,6 +1,8 @@
 package controller;
 
+import modeler.game.Mechanism;
 import viewer.Window;
+import viewer.interaction.Config;
 import viewer.interaction.Track;
 
 public class Remote {
@@ -25,7 +27,37 @@ public class Remote {
         Window.close(null);
     }
 
-    public static void backButtonClicked(){
+    public static void decreaseButtonClicked() {
+
+        Config config = (Config) Window.getPage("config");
+
+        config.indicate(Mechanism.extract());
+
+    }
+
+    public static void increaseButtonClicked() {
+
+        Config config = (Config) Window.getPage("config");
+
+        config.indicate(Mechanism.insert());
+
+    }
+
+    public static void backConfigButtonClicked() {
+
+        Config config = (Config) Window.getPage("config");
+
+        config.indicate(Mechanism.normalize());
+
+        Window.advance("menu",null);
+
+    }
+
+    public static void startButtonClicked() {
+        Window.advance("game", null);
+    }
+
+    public static void backTrackButtonClicked(){
         Window.advance("menu",null);
     }
 
@@ -34,7 +66,7 @@ public class Remote {
     }
 
     public static void clearHistoryButtonCliqued(){
-        Track track = (Track) Window.getChapter("track");
+        Track track = (Track) Window.getPage("track");
         track.clearInfo();
     }
 
