@@ -10,7 +10,7 @@ public class Storage {
 
     private static LinkedList<String> buffer = new LinkedList<>();
 
-    private static final String CORE = "sto/main/save/";
+    private static final String CORE = "src/main/savings/";
     private static final char SEPERATOR = ',';
 
     public static void insert(String data) {

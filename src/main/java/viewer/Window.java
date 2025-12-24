@@ -20,11 +20,13 @@ public class Window {
         Menu menu = new Menu();
         Config config = new Config();
         Game game = new Game();
+        Profile profile = new Profile();
         Track track = new Track();
 
         pages.put("menu", menu);
         pages.put("config", config);
         pages.put("game", game);
+        pages.put("profile", profile);
         pages.put("track", track);
 
         Page focus = menu;

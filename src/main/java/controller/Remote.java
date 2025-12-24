@@ -53,6 +53,10 @@ public class Remote {
         Window.advance("game", null);
     }
 
+    public static void doneButtonClicked() {
+
+    }
+
     public static void backTrackButtonClicked(){
         Window.advance("menu",null);
     }

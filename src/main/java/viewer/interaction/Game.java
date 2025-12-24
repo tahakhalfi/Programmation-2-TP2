@@ -1,27 +1,43 @@
 package viewer.interaction;
 
+import controller.Remote;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import manager.Animation;
 import manager.Palette;
 import viewer.Page;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Game extends Page {
+
+    private ArrayList<ImageView> selections;
 
     public void display() {
 
         VBox root = new VBox();
-        root.setAlignment(Pos.TOP_CENTER);
+        root.setAlignment(Pos.CENTER);
+        root.setPadding(new Insets(5));
         root.setSpacing(5);
         root.setBackground(new Background(new BackgroundFill(Palette.colorBackground(), null, null)));
 
         HBox top = new HBox();
         top.setId("top");
         top.setAlignment(Pos.CENTER);
-        top.setPadding(new Insets(5));
 
         root.getChildren().add(top);
+
+        Region space = new Region();
+        VBox.setVgrow(space, Priority.ALWAYS);
+
+        root.getChildren().add(space);
 
         HBox middle = new HBox();
         middle.setId("middle");
@@ -29,6 +45,11 @@ public class Game extends Page {
         middle.setSpacing(5);
 
         root.getChildren().add(middle);
+
+        space = new Region();
+        VBox.setVgrow(space, Priority.ALWAYS);
+
+        root.getChildren().add(space);
 
         HBox bottom = new HBox();
         bottom.setId("bottom");
@@ -49,7 +70,7 @@ public class Game extends Page {
 
         // SPACE REGION
 
-        Region space = new Region();
+        space = new Region();
         HBox.setHgrow(space, Priority.ALWAYS);
 
         top.getChildren().add(space);
@@ -68,7 +89,9 @@ public class Game extends Page {
 
         VBox territory = new VBox();
         territory.setId("in");
-        territory.setAlignment(Pos.CENTER);
+        territory.setMinSize(300, 600);
+        territory.setAlignment(Pos.TOP_CENTER);
+        territory.setPadding(new Insets(20));
         territory.setSpacing(20);
         territory.setBackground(new Background(new BackgroundFill(Palette.colorTerritory(), null, null)));
 
@@ -86,26 +109,104 @@ public class Game extends Page {
 
         // AREA VBOX
 
-        HBox area = new HBox();
+        VBox area = new VBox();
         area.setId("area");
         area.setAlignment(Pos.CENTER);
         area.setSpacing(5);
 
         territory.getChildren().add(area);
 
-        // TRANS VBOX
+        // TERRITORY VBOX
+
+        territory = new VBox();
+        territory.setId("trans");
+        territory.setMinSize(100, 600);
+        territory.setAlignment(Pos.TOP_CENTER);
+        territory.setPadding(new Insets(20));
+        territory.setSpacing(20);
+        territory.setBackground(new Background(new BackgroundFill(Palette.colorTerritory(), null, null)));
+
+        middle.getChildren().add(territory);
 
         // TITLE TEXT
 
+        title = new Text();
+        title.setId("title");
+        title.setText("⇄");
+        title.setFill(Palette.colorTitle());
+        title.setFont(Palette.fontTitle());
+
+        territory.getChildren().add(title);
+
         // AREA VBOX
 
-        // OUT VBOX
+        area = new VBox();
+        area.setId("area");
+        area.setAlignment(Pos.CENTER);
+        area.setSpacing(5);
+
+        territory.getChildren().add(area);
+
+        // TERRITORY VBOX
+
+        territory = new VBox();
+        territory.setId("out");
+        territory.setMinSize(300, 600);
+        territory.setAlignment(Pos.TOP_CENTER);
+        territory.setPadding(new Insets(20));
+        territory.setSpacing(20);
+        territory.setBackground(new Background(new BackgroundFill(Palette.colorTerritory(), null, null)));
+
+        middle.getChildren().add(territory);
 
         // TITLE TEXT
 
+        title = new Text();
+        title.setId("title");
+        title.setText("OUT");
+        title.setFill(Palette.colorTitle());
+        title.setFont(Palette.fontTitle());
+
+        territory.getChildren().add(title);
+
         // AREA VBOX
+
+        area = new VBox();
+        area.setId("area");
+        area.setAlignment(Pos.CENTER);
+        area.setSpacing(5);
+
+        territory.getChildren().add(area);
 
         // DONE BUTTON
+
+        Button button = new Button();
+        button.setId("done");
+        button.setText("DONE");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
+
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
+
+        button.setOnMouseClicked(event -> {Remote.doneButtonClicked();});
+
+        bottom.getChildren().add(button);
+
+        selections = new ArrayList<>(6);
+
+        for (int index = 1; index <= 6; index++) {
+
+            ImageView selection = new ImageView(new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice" + index + ".png"))));
+            selection.setFitWidth(50);
+            selection.setFitHeight(50);
+            selection.setPreserveRatio(true);
+            selection.setSmooth(true);
+
+            selections.add(selection);
+
+        }
 
         super.setRoot(root);
 
@@ -113,10 +214,77 @@ public class Game extends Page {
 
     public void open(Runnable onFinished) {
 
+        Integer[] chosens = {1, 2, 3, 4, 5, 6};
+
+        place("in", List.of(chosens));
+
     }
 
     public void close(Runnable onFinished) {
 
+
+
     }
+
+    public void place(String section, List<Integer> indexes) {
+
+        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
+
+        if (territory == null) {
+            return;
+        }
+
+        Pane area = (Pane) territory.lookup("#area");
+
+        for (int i = 0; i < indexes.size(); i++) {
+
+            int index = indexes.get(i);
+
+            if (index < 0 || index > selections.size() - 1) {
+                continue;
+            }
+
+            ImageView selection = selections.get(index);
+
+            if (selection == null || selection.getParent() == area) {
+                continue;
+            }
+
+            area.getChildren().add(selection);
+
+        }
+
+    }
+
+    public void place(String section, int index) {
+
+        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
+
+        if (territory == null) {
+            return;
+        }
+
+        Pane area = (Pane) territory.lookup("#area");
+
+        if (index < 0 || index > selections.size() - 1) {
+            return;
+        }
+
+        ImageView selection = selections.get(index);
+
+        if (selection == null || selection.getParent() == area) {
+            return;
+        }
+
+        area.getChildren().add(selection);
+
+    }
+
+    public void retrieve(String section) {
+
+
+
+    }
+
 }
 
