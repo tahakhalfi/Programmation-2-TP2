@@ -2,11 +2,11 @@ package viewer.interaction;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import manager.Palette;
 import viewer.Page;
 
 public class Game extends Page {
@@ -15,32 +15,99 @@ public class Game extends Page {
 
         VBox root = new VBox();
         root.setAlignment(Pos.TOP_CENTER);
-        root.setSpacing(20);
-        root.setPadding(new Insets(20, 50, 20, 50));
+        root.setSpacing(5);
+        root.setBackground(new Background(new BackgroundFill(Palette.colorBackground(), null, null)));
 
-        Text currentPlayerText = new Text("Current Player: Test");
-        currentPlayerText.setFont(Font.font("Segoe UI", 28));
-        currentPlayerText.setFill(Color.web("#2c3e50"));
+        HBox top = new HBox();
+        top.setId("top");
+        top.setAlignment(Pos.CENTER);
+        top.setPadding(new Insets(5));
 
-        Text currentScoreText = new Text("Current Score: 0");
-        currentScoreText.setFont(Font.font("Segoe UI", 18));
-        currentScoreText.setFill(Color.web("#34495e"));
+        root.getChildren().add(top);
 
-        HBox scoreBox = new HBox();
-        scoreBox.setAlignment(Pos.CENTER);
-        scoreBox.setSpacing(50);
+        HBox middle = new HBox();
+        middle.setId("middle");
+        middle.setAlignment(Pos.CENTER);
+        middle.setSpacing(5);
 
-        Text bestScoreText = new Text("Best Score: -- (no player yet)");
-        bestScoreText.setFont(Font.font("Verdana", 14));
-        bestScoreText.setFill(Color.GREEN);
+        root.getChildren().add(middle);
 
-        Text worstScoreText = new Text("Worst Score: -- (no player yet)");
-        worstScoreText.setFont(Font.font("Verdana", 14));
-        worstScoreText.setFill(Color.RED);
+        HBox bottom = new HBox();
+        bottom.setId("bottom");
+        bottom.setAlignment(Pos.CENTER);
+        bottom.setSpacing(5);
 
-        scoreBox.getChildren().addAll(bestScoreText, worstScoreText);
+        root.getChildren().add(bottom);
 
-        root.getChildren().addAll(currentPlayerText, currentScoreText, scoreBox);
+        // TURN TEXT
+
+        Text turn = new Text();
+        turn.setId("turn");
+        turn.setText("TURN #1");
+        turn.setFill(Palette.colorComment());
+        turn.setFont(Palette.fontComment());
+
+        top.getChildren().add(turn);
+
+        // SPACE REGION
+
+        Region space = new Region();
+        HBox.setHgrow(space, Priority.ALWAYS);
+
+        top.getChildren().add(space);
+
+        // CONTROL TEXT
+
+        Text control = new Text();
+        control.setId("control");
+        control.setText("NONAME");
+        control.setFill(Palette.colorComment());
+        control.setFont(Palette.fontComment());
+
+        top.getChildren().add(control);
+
+        // TERRITORY VBOX
+
+        VBox territory = new VBox();
+        territory.setId("in");
+        territory.setAlignment(Pos.CENTER);
+        territory.setSpacing(20);
+        territory.setBackground(new Background(new BackgroundFill(Palette.colorTerritory(), null, null)));
+
+        middle.getChildren().add(territory);
+
+        // TITLE TEXT
+
+        Text title = new Text();
+        title.setId("title");
+        title.setText("IN");
+        title.setFill(Palette.colorTitle());
+        title.setFont(Palette.fontTitle());
+
+        territory.getChildren().add(title);
+
+        // AREA VBOX
+
+        HBox area = new HBox();
+        area.setId("area");
+        area.setAlignment(Pos.CENTER);
+        area.setSpacing(5);
+
+        territory.getChildren().add(area);
+
+        // TRANS VBOX
+
+        // TITLE TEXT
+
+        // AREA VBOX
+
+        // OUT VBOX
+
+        // TITLE TEXT
+
+        // AREA VBOX
+
+        // DONE BUTTON
 
         super.setRoot(root);
 

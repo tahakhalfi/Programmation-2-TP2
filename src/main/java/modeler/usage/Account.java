@@ -1,6 +1,7 @@
 package modeler.usage;
 
 import manager.Chronologue;
+import manager.Message;
 import manager.Storage;
 
 import java.util.List;
@@ -14,30 +15,63 @@ public class Account {
 
     private static final int EXPERIENCING = 50;
 
-    public static void signin(String givenName) {
+    public static void main(String[] args){
+        savein("Pedro", 4, 150);
+        savein("Magno", 2, 100);
+        login("Pedro");
+    }
 
-        statein(
-                givenName,
-                1,
-                0
-        );
+    public static List<String> lookin(String givenName) {
+
+        List<String> content = Storage.read("details.csv");
+
+        if (content == null) {
+            return null;
+        }
+
+        for (int i = 0; i < content.size(); i++) {
+
+            List<String> data = Storage.scan(content.get(i));
+
+            if (data.getFirst().equals(givenName)) {
+                return data;
+            }
+
+        }
+
+        return null;
+    }
+
+    public static boolean checkin(String givenName) {
+
+        List<String> data = lookin(givenName);
+
+        return data != null;
 
     }
 
-    // modification
+    public static void signin(String givenName) {
+
+        loadin(givenName, 1, 0);
+
+    }
 
     public static void login(String givenName) {
 
-        List<String> player = getPlayerByName(givenName);
+        List<String> data = lookin(givenName);
+
+        if (data == null) {
+            return;
+        }
 
         int givenLevel = 0;
         int givenExperience = 0;
 
-        if (player != null && player.size() == 3) {
-            givenLevel = Integer.parseInt(player.get(1));
-            givenExperience = Integer.parseInt(player.get(2));
+        if (data != null && data.size() == 3) {
+            givenLevel = Integer.parseInt(data.get(1));
+            givenExperience = Integer.parseInt(data.get(2));
         } else {
-            System.out.println("Erreur : joueur introuvable -> " + givenName);
+            Message.fail("// Erreur : joueur introuvable -> " + givenName);
             return;
         }
 
@@ -46,47 +80,17 @@ public class Account {
         System.out.println("Level: " + givenLevel);
         System.out.println("XP: " + givenExperience);
 
-        statein(
-                givenName,
-                givenLevel,
-                givenExperience
-        );
+        loadin(givenName, givenLevel, givenExperience);
+
     }
 
-    // modification
-
-    public static List<String> getPlayerByName(String givenName) {
-
-        List<String> content = Storage.read("details.csv");
-        if (content == null) return null;
-
-        for (int i = 0; i < content.size(); i++) {
-            List<String> data = Storage.scan(content.get(i));
-
-            if (data.get(0).equals(givenName)) {
-                return data; // [name, level, xp]
-            }
-        }
-        return null;
-    }
-
-    // modification
-
-    public static void main(String[] args){
-        savein("Pedro", 4, 150);
-        savein("Magno", 2, 100);
-        login("Pedro");
-    }
-
-    public static void statein(String givenName, int givenLevel, int givenExperience) {
+    public static void loadin(String givenName, int givenLevel, int givenExperience) {
 
         name = givenName;
         level = givenLevel;
         experience = givenExperience;
 
     }
-
-    // modification
 
     public static void savein(String givenName, int givenLevel, int givenExperience) {
 

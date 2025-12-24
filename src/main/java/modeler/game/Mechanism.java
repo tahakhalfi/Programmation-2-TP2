@@ -29,71 +29,15 @@ public class Mechanism {
         return scale;
     }
 
-    public static void start() {
+    public static void start() {}
 
-        if (active) {
-            return;
-        }
+    public static void move() {}
 
-        active = true;
+    public static void shut() {}
 
-        move(0);
+    public static void pass() {}
 
-    }
-
-    public static void move(int focus) {
-
-        if (players.isEmpty()) {
-            return;
-        }
-
-        if (focus <= -1 || focus >= players.size()) {
-            return;
-        }
-
-        Player control = getPlayer(focus);
-
-        if (control == null) {
-            return;
-        }
-
-        turn = focus;
-
-    }
-
-    public static void shut() {
-
-        turn = -1;
-
-        end();
-
-    }
-
-    public static void pass() {
-
-        int next = turn + 1;
-
-        if (next < players.size()) {
-            move(next);
-        } else {
-            shut();
-        }
-
-    }
-
-    public static void end() {
-
-        if (!active) {
-            return;
-        }
-
-        if (players.isEmpty()) {
-            return;
-        }
-
-        active = false;
-
-    }
+    public static void end() {}
 
     public static boolean getActive() {
         return active;

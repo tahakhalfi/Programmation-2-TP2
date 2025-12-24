@@ -79,19 +79,4 @@ public class Storage {
         }
 
     }
-
-    /*
-    for (String line : lines) {
-        String[] parts = line.split(String.valueOf(SEPERATOR));
-        List<String> row = new ArrayList<>(Arrays.asList(parts));
-        data.add(row);
-    }
-    */
-
-    /*
-    for (List<String> row : data) {
-        String line = String.join(String.valueOf(SEPERATOR), row);
-        lines.add(line);
-    }
-    */
 }

@@ -20,8 +20,16 @@ public class Palette {
         return COLOR_PEACH;
     }
 
+    public static Color colorTerritory() {
+        return COLOR_CLAIRE;
+    }
+
     public static Color colorTitle() {
         return COLOR_ORANGE;
+    }
+
+    public static Color colorComment() {
+        return COLOR_WHITE;
     }
 
     public static Color colorInvisible() {
@@ -38,6 +46,10 @@ public class Palette {
 
     public static Font fontTitle() {
         return FONT_EXTREME;
+    }
+
+    public static Font fontComment() {
+        return FONT_NORMAL;
     }
 
     public static Font fontInactive() {
