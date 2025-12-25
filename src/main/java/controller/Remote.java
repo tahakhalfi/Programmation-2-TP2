@@ -1,9 +1,8 @@
 package controller;
 
-import manager.Storage;
 import modeler.game.Mechanism;
 import modeler.game.Player;
-import modeler.memoire.History;
+import modeler.memory.History;
 import modeler.usage.Account;
 import viewer.Window;
 import viewer.interaction.Config;

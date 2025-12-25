@@ -1,4 +1,4 @@
-package modeler.memoire;
+package modeler.memory;
 
 import manager.Chronologue;
 import manager.Storage;
@@ -11,7 +11,7 @@ public class History {
     public static void save(String name, String score) {
 
         if (name == null) {name = "---";}
-        if (score == null) {name = "---";}
+        if (score == null) {score = "---";}
 
         Storage.insert(Chronologue.date());
         Storage.insert(name);

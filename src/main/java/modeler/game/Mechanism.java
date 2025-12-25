@@ -1,6 +1,5 @@
 package modeler.game;
 
-import modeler.memoire.History;
 import modeler.usage.Account;
 
 import java.util.HashMap;
