@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import manager.Audio;
 import manager.Palette;
 import viewer.Page;
 
@@ -56,7 +57,7 @@ public class Menu extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.playButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.playButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -72,7 +73,7 @@ public class Menu extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.profileButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.profileButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -88,7 +89,23 @@ public class Menu extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.trackButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.trackButtonClicked();});
+
+        bottom.getChildren().add(button);
+
+        // TRACK BUTTON
+
+        button = new Button();
+        button.setId("settings");
+        button.setText("SETTINGS");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
+
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
+
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.settingsButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -104,7 +121,7 @@ public class Menu extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.quitButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.quitButtonClicked();});
 
         bottom.getChildren().add(button);
 

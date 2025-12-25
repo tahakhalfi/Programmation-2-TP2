@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import manager.Animation;
+import manager.Audio;
 import manager.Palette;
 import viewer.Log;
 import viewer.Page;
@@ -72,7 +73,7 @@ public class Track extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.backButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -85,7 +86,7 @@ public class Track extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.clearButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.clearButtonClicked();});
 
         bottom.getChildren().add(button);
 

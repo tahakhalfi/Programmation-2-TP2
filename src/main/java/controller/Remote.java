@@ -1,5 +1,6 @@
 package controller;
 
+import manager.Audio;
 import modeler.game.Mechanism;
 import modeler.game.Player;
 import modeler.memory.History;
@@ -45,6 +46,12 @@ public class Remote {
         History.clear();
 
         track.refresh(History.copy());
+
+    }
+
+    public static void settingsButtonClicked() {
+
+        Window.advance("settings",null);
 
     }
 

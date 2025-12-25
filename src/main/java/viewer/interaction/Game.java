@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import manager.Animation;
+import manager.Audio;
 import manager.Palette;
 import viewer.Page;
 
@@ -203,7 +204,7 @@ public class Game extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.doneButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.doneButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -230,7 +231,7 @@ public class Game extends Page {
 
             int i = index;
 
-            selection.setOnMouseClicked(event -> {Remote.selectionButtonClicked(i);});
+            selection.setOnMouseClicked(event -> {Audio.playPop(); Remote.selectionButtonClicked(i);});
 
             selections.add(selection);
 
@@ -343,6 +344,8 @@ public class Game extends Page {
         if (view == null) {
             return;
         }
+
+        Audio.playTap();
 
         view.setImage(null);
 

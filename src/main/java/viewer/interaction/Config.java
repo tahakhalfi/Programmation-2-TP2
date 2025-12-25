@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 
 import controller.Remote;
 import manager.Animation;
+import manager.Audio;
 import manager.Palette;
 import viewer.Page;
 
@@ -60,7 +61,7 @@ public class Config extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.decreaseButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.decreaseButtonClicked();});
 
         middle.getChildren().add(button);
 
@@ -86,7 +87,7 @@ public class Config extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.increaseButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.increaseButtonClicked();});
 
         middle.getChildren().add(button);
 
@@ -102,7 +103,7 @@ public class Config extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.backButtonClicked();});
 
         bottom.getChildren().add(button);
 
@@ -118,7 +119,7 @@ public class Config extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.startButtonClicked();});
+        button.setOnMouseClicked(event -> {Audio.playClick(); Remote.startButtonClicked();});
 
         bottom.getChildren().add(button);
 

@@ -22,12 +22,14 @@ public class Window {
         Game game = new Game();
         Profile profile = new Profile();
         Track track = new Track();
+        Settings settings = new Settings();
 
         pages.put("menu", menu);
         pages.put("config", config);
         pages.put("game", game);
         pages.put("profile", profile);
         pages.put("track", track);
+        pages.put("settings", settings);
 
         Page focus = menu;
 

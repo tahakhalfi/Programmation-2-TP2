@@ -11,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import manager.Animation;
+import manager.Audio;
 import manager.Palette;
 import modeler.usage.Account;
 import viewer.Page;
@@ -114,7 +115,7 @@ public class Profile extends Page {
         back.setOnMouseEntered(Animation::activate);
         back.setOnMouseExited(Animation::inactivate);
 
-        back.setOnMouseClicked(e -> Remote.backButtonClicked());
+        back.setOnMouseClicked(event -> {Audio.playClick(); Remote.backButtonClicked();});
 
         bottom.getChildren().add(back);
 
