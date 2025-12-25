@@ -161,8 +161,6 @@ public class Profile extends Page {
         double ratio = (double) experience / maxExperience;
         int length = (int) ((XP_BAR_WIDTH - 4) * ratio);
 
-        System.out.println(length);
-
         xpFill.setMinWidth(length);
         xpFill.setMaxWidth(length);
 
