@@ -42,7 +42,7 @@ public class Config extends Page {
 
         Text text = new Text();
         text.setId("title");
-        text.setText("CONFIGURATION");
+        text.setText("NUMBER OF OPPONENTS");
         text.setFill(Palette.colorTitle());
         text.setFont(Palette.fontTitle());
 

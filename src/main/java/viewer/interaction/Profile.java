@@ -97,8 +97,6 @@ public class Profile extends Page {
         xpText.setFill(Palette.colorComment());
         xpText.setFont(Palette.fontComment());
 
-        updateProfile();
-
         /* ================= BOUTON ================= */
 
         HBox bottom = new HBox();
@@ -150,7 +148,7 @@ public class Profile extends Page {
         Animation.fadeout(children, children.size() - 1, -1, 0.5, 0.1, onFinished);
     }
 
-    private void updateProfile() {
+    public void update() {
 
         nameText.setText("NAME: " + Account.getName());
         levelText.setText("LEVEL: " + Account.getLevel());

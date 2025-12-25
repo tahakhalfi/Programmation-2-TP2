@@ -7,6 +7,7 @@ import modeler.usage.Account;
 import viewer.Window;
 import viewer.interaction.Config;
 import viewer.interaction.Game;
+import viewer.interaction.Profile;
 import viewer.interaction.Track;
 
 public class Remote {
@@ -18,6 +19,10 @@ public class Remote {
     }
 
     public static void profileButtonClicked() {
+
+        Profile profile = (Profile) Window.getPage("profile");
+
+        profile.update();
 
         Window.advance("profile", null);
 

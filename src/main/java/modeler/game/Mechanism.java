@@ -257,6 +257,15 @@ public class Mechanism {
 
         winner = selected;
 
+        if (winner != null && winner.getName().equals(Account.getName())) {
+
+            int gain = RandomGenerator.getDefault().nextInt(1, 6);
+            int amount = 10 * gain;
+
+            Account.addExperience(amount);
+
+        }
+
     }
 
     public static boolean getActive() {
