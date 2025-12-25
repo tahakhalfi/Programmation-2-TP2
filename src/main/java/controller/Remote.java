@@ -4,7 +4,10 @@ import modeler.game.Mechanism;
 import modeler.usage.Account;
 import viewer.Window;
 import viewer.interaction.Config;
+import viewer.interaction.Game;
 import viewer.interaction.Track;
+
+import java.util.HashMap;
 
 public class Remote {
 
@@ -56,7 +59,22 @@ public class Remote {
 
     public static void startButtonClicked() {
 
+        Game game = (Game) Window.getPage("game");
+
+        game.store(Mechanism.getQuantity());
+
         Mechanism.start();
+
+        game.declare(Mechanism.getTurn(), Mechanism.getName());
+
+        for (int index = 0; index < Mechanism.getQuantity(); index++) {
+
+            game.place(index, Mechanism.getSection(index));
+            game.present(index, Mechanism.getValue(index));
+
+        }
+
+        game.permit(Mechanism.getAccess());
 
         Window.advance("game", null);
 
@@ -64,11 +82,32 @@ public class Remote {
 
     public static void selectionButtonClicked(int index) {
 
+        Game game = (Game) Window.getPage("game");
+
         Mechanism.select(index);
+
+        game.place(index, Mechanism.getSection(index));
+
+        game.permit(Mechanism.getAccess());
 
     }
 
     public static void doneButtonClicked() {
+
+        Game game = (Game) Window.getPage("game");
+
+        Mechanism.transit();
+
+        game.declare(Mechanism.getTurn(), Mechanism.getName());
+
+        for (int index = 0; index < Mechanism.getQuantity(); index++) {
+
+            game.place(index, Mechanism.getSection(index));
+            game.present(index, Mechanism.getValue(index));
+
+        }
+
+        game.permit(Mechanism.getAccess());
 
     }
 

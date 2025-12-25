@@ -1,5 +1,6 @@
 package modeler.game;
 
+import manager.Message;
 import modeler.usage.Account;
 
 import java.util.*;
@@ -19,6 +20,8 @@ public class Mechanism {
 
     private static HashMap<Integer, String> sections = new HashMap<>(6);
     private static HashMap<Integer, Integer> values = new HashMap<>(6);
+
+    private static HashMap<String, String> trajectories = new HashMap<>();
 
     private static final int QUANTITY = 6;
 
@@ -45,28 +48,42 @@ public class Mechanism {
 
         players.add(new Player(Account.getName()));
 
-        for (int i = 0; i < scale - 1; i++) {
+        for (int i = 0; i < scale; i++) {
             players.add(new Player("Player #" + i));
         }
+
+        for (int index = 0; index < QUANTITY; index++) {
+            values.put(index, null);
+        }
+
+        for (int index = 0; index < QUANTITY; index++) {
+            sections.put(index, null);
+        }
+
+        trajectories.put("in", null);
+        trajectories.put("trans", null);
+        trajectories.put("out", null);
 
         active = true;
         turn = 0;
 
-        for (int index = 0; index < QUANTITY; index++) {
-            values.put(index, index + 1);
-        }
-
-        move();
+        arrange();
+        establish();
 
     }
 
-    public static void move() {
-
-        for (int index = 0; index < QUANTITY; index++) {
-            sections.put(index, "in");
-        }
+    public static void establish() {
 
         shuffle();
+        flowate();
+
+    }
+
+    public static void arrange() {
+
+        for (int index = 0; index < QUANTITY; index++) {
+            sections.replace(index, "in");
+        }
 
     }
 
@@ -86,51 +103,132 @@ public class Mechanism {
 
     }
 
-    public static void select(int index) {
+    public static void flowate() {
 
-        sections.replace(index, "trans");
+        trajectories.replace("in", "trans");
+        trajectories.replace("trans", "in");
+        trajectories.replace("out", null);
 
     }
 
-    public static void pass() {
+    public static void unflowate() {
 
-        int rest = 0;
+        trajectories.replace("in", null);
+        trajectories.replace("trans", "out");
+        trajectories.replace("out", null);
+
+    }
+
+    public static int count(String section) {
+
+        int total = 0;
 
         for (int index = 0; index < QUANTITY; index++) {
 
-            String section = sections.get(index);
-
-            if (!section.equals("in")) {
-                continue;
+            if (sections.get(index).equals(section)) {
+                total += 1;
             }
-
-            rest += 1;
 
         }
 
-        if (rest == 0) {
+        return total;
 
-            turn += 1;
+    }
 
-            if (turn >= players.size()) {
+    public static int sum(String section) {
 
-                end();
+        int total = 0;
+
+        for (int index = 0; index < QUANTITY; index++) {
+
+            if (sections.get(index).equals(section)) {
+                total += values.get(index);
+            }
+
+        }
+
+        return total;
+
+    }
+
+    public static void select(int index) {
+
+        String now = sections.get(index);
+
+        if (now == null) {
+            return;
+        }
+
+        String after = trajectories.get(now);
+
+        if (after == null) {
+            return;
+        }
+
+        sections.replace(index, after);
+
+    }
+
+    public static void transit() {
+
+        unflowate();
+
+        for (int index = 0; index < QUANTITY; index++) {
+            select(index);
+        }
+
+        if (count("in") == 0) {
+
+            Player player = players.get(turn);
+
+            player.setScore(sum("out"));
+
+            int next = turn + 1;
+
+            if (next >= players.size()) {
+
+                active = false;
+                turn = -1;
+
+                conclude();
 
             } else {
 
-                move();
+                active = true;
+                turn = next;
+
+                arrange();
+                establish();
 
             }
 
         } else {
 
-            shuffle();
+            establish();
 
         }
 
     }
 
-    public static void end() {
+    public static void conclude() {
+
+        Player winner = null;
+
+        for (int index = 0; index < players.size(); index++) {
+
+            Player player = players.get(index);
+
+            if (winner == null || player.getScore() > winner.getScore()) {
+                winner = player;
+            }
+
+        }
+
+        if (winner != null) {
+
+        }
+
+
 
     }
 
@@ -138,16 +236,24 @@ public class Mechanism {
         return turn;
     }
 
-    public static LinkedList<Player> getPlayers() {
-        return players;
+    public static String getName() {
+        return players.get(turn).getName();
     }
 
-    public static Player getPlayer(int index) {
-        return players.get(index);
+    public static int getQuantity() {
+        return QUANTITY;
     }
 
-    public static Player getControl() {
-        return players.get(turn);
+    public static String getSection(Integer index) {
+        return sections.get(index);
+    }
+
+    public static Integer getValue(Integer index) {
+        return values.get(index);
+    }
+
+    public static boolean getAccess() {
+        return count("trans") > 0;
     }
 
 }

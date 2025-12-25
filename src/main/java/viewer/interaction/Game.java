@@ -16,17 +16,16 @@ import java.util.*;
 
 public class Game extends Page {
 
-    private static final ArrayList<Image> FIGURES = new ArrayList<>(Arrays.asList(
-            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice1.png"))),
-            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice2.png"))),
-            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice3.png"))),
-            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice4.png"))),
-            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice5.png"))),
-            new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice6.png")))
-    ));
-
     private ArrayList<Button> selections;
-    private HashMap<String, String> trajectories;
+
+    private static final HashMap<Integer, Image> FIGURES = new HashMap<>(Map.of(
+            1, new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice1.png"))),
+            2, new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice2.png"))),
+            3, new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice3.png"))),
+            4, new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice4.png"))),
+            5, new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice5.png"))),
+            6, new Image(Objects.requireNonNull(Game.class.getResourceAsStream("/images/dice6.png")))
+    ));
 
     public void display() {
 
@@ -70,7 +69,7 @@ public class Game extends Page {
 
         Text turn = new Text();
         turn.setId("turn");
-        turn.setText("TURN #1");
+        turn.setText("");
         turn.setFill(Palette.colorComment());
         turn.setFont(Palette.fontComment());
 
@@ -83,15 +82,15 @@ public class Game extends Page {
 
         top.getChildren().add(space);
 
-        // CONTROL TEXT
+        // NAME TEXT
 
-        Text control = new Text();
-        control.setId("control");
-        control.setText("NONAME");
-        control.setFill(Palette.colorComment());
-        control.setFont(Palette.fontComment());
+        Text name = new Text();
+        name.setId("name");
+        name.setText("");
+        name.setFill(Palette.colorComment());
+        name.setFont(Palette.fontComment());
 
-        top.getChildren().add(control);
+        top.getChildren().add(name);
 
         // TERRITORY VBOX
 
@@ -128,7 +127,7 @@ public class Game extends Page {
 
         territory = new VBox();
         territory.setId("trans");
-        territory.setMinSize(100, 600);
+        territory.setMinSize(150, 600);
         territory.setAlignment(Pos.TOP_CENTER);
         territory.setPadding(new Insets(20));
         territory.setSpacing(20);
@@ -204,139 +203,51 @@ public class Game extends Page {
 
         selections = new ArrayList<>(6);
 
-        for (int i = 0; i < 6; i++) {
-
-            Image figure = FIGURES.get(i);
-
-            ImageView selection = new ImageView(figure);
-            selection.setFitWidth(50);
-            selection.setFitHeight(50);
-            selection.setPreserveRatio(true);
-            selection.setSmooth(true);
-
-            button = new Button();
-            button.setGraphic(selection);
-            button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
-
-            int index = i;
-
-            button.setOnMouseClicked(event -> {Remote.selectionButtonClicked(index);});
-
-            selections.add(button);
-
-        }
-
-        trajectories = new HashMap<>();
-
-        trajectories.put("in", "trans");
-        trajectories.put("trans", "in");
-
         super.setRoot(root);
 
     }
 
-    public void open(Runnable onFinished) {
+    public void store(int quantity) {
 
-        Integer[] chosens = {1, 2, 3, 4, 5, 6};
+        for (int index = 0; index < quantity; index++) {
 
-        place("in", List.of(chosens));
+            ImageView view = new ImageView();
+            view.setImage(null);
+            view.setFitWidth(50);
+            view.setFitHeight(50);
+            view.setPreserveRatio(true);
+            view.setSmooth(true);
 
-        if (onFinished != null) {
-            onFinished.run();
+            Button selection = new Button();
+            selection.setGraphic(view);
+            selection.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
+
+            int i = index;
+
+            selection.setOnMouseClicked(event -> {Remote.selectionButtonClicked(i);});
+
+            selections.add(selection);
+
         }
 
     }
 
-    public void close(Runnable onFinished) {
+    public void empty() {
 
-        Integer[] chosens = {1, 2, 3, 4, 5, 6};
-
-        place("in", List.of(chosens));
-        place("trans", List.of(chosens));
-        place("out", List.of(chosens));
-
-        if (onFinished != null) {
-            onFinished.run();
-        }
-
-    }
-
-    public void place(String section, List<Integer> indexes) {
-
-        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
-
-        if (territory == null) {
-            return;
-        }
-
-        Pane area = (Pane) territory.lookup("#area");
-
-        for (int i = 0; i < indexes.size(); i++) {
-
-            int index = indexes.get(i) - 1;
-
-            if (index < 0 || index > selections.size() - 1) {
-                continue;
-            }
+        for (int index = 0; index < selections.size(); index++) {
 
             Button selection = selections.get(index);
 
-            if (selection == null || selection.getParent() == area) {
+            if (selection == null) {
                 continue;
             }
 
-            area.getChildren().add(selection);
+            selection.setOnMouseClicked(null);
 
-        }
+            Pane area = (Pane) selection.getParent();
 
-    }
-
-    public void place(String section, int index) {
-
-        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
-
-        if (territory == null) {
-            return;
-        }
-
-        Pane area = (Pane) territory.lookup("#area");
-
-        if (index < 0 || index > selections.size() - 1) {
-            return;
-        }
-
-        Button selection = selections.get(index);
-
-        if (selection == null || selection.getParent() == area) {
-            return;
-        }
-
-        area.getChildren().add(selection);
-
-    }
-
-    public void retrieve(String section, List<Integer> indexes) {
-
-        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
-
-        if (territory == null) {
-            return;
-        }
-
-        Pane area = (Pane) territory.lookup("#area");
-
-        for (int i = 0; i < indexes.size(); i++) {
-
-            int index = indexes.get(i) - 1;
-
-            if (index < 0 || index > selections.size() - 1) {
-                continue;
-            }
-
-            Button selection = selections.get(index);
-
-            if (selection == null || selection.getParent() != area) {
-                continue;
+            if (area == null) {
+                return;
             }
 
             area.getChildren().remove(selection);
@@ -345,15 +256,7 @@ public class Game extends Page {
 
     }
 
-    public void retrieve(String section, int index) {
-
-        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
-
-        if (territory == null) {
-            return;
-        }
-
-        Pane area = (Pane) territory.lookup("#area");
+    public void place(Integer index, String section) {
 
         if (index < 0 || index > selections.size() - 1) {
             return;
@@ -361,11 +264,87 @@ public class Game extends Page {
 
         Button selection = selections.get(index);
 
-        if (selection == null || selection.getParent() != area) {
+        if (selection == null) {
             return;
         }
 
-        area.getChildren().remove(selection);
+        Pane now = (Pane) selection.getParent();
+
+        if (now != null) {
+            now.getChildren().remove(selection);
+        }
+
+        if (section == null) {
+            return;
+        }
+
+        Pane territory = (Pane) root.lookup("#middle").lookup("#" + section);
+
+        if (territory == null) {
+            return;
+        }
+
+        Pane after = (Pane) territory.lookup("#area");
+
+        if (after == null) {
+            return;
+        }
+
+        after.getChildren().add(selection);
+
+    }
+
+    public void present(Integer index, Integer value) {
+
+        if (index < 0 || index > selections.size() - 1) {
+            return;
+        }
+
+        Button selection = selections.get(index);
+
+        if (selection == null) {
+            return;
+        }
+
+        ImageView view = (ImageView) selection.getGraphic();
+
+        if (view == null) {
+            return;
+        }
+
+        view.setImage(null);
+
+        if (value == null) {
+            return;
+        }
+
+        Image figure = FIGURES.get(value);
+
+        if (figure == null) {
+            return;
+        }
+
+        view.setImage(figure);
+
+    }
+
+    public void permit(boolean access) {
+
+        Button button = (Button) root.lookup("#bottom").lookup("#done");
+
+        button.setVisible(access);
+
+    }
+
+    public void declare(int turn, String name) {
+
+        Text text = (Text) root.lookup("#top").lookup("#turn");
+
+        text.setText("TURN : " + turn);
+
+        text = (Text) root.lookup("#top").lookup("#name");
+
+        text.setText("PLAYER : " + name.toUpperCase());
 
     }
 
