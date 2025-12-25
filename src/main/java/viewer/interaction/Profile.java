@@ -26,7 +26,6 @@ public class Profile extends Page {
     private Text levelText;
     private Text experienceText;
 
-    private StackPane xpBar;
     private Region xpFill;
     private Text xpText;
 
@@ -71,49 +70,32 @@ public class Profile extends Page {
 
         // contour barre xp
 
-        Pane xpContainer = new Pane();
-        xpContainer.setPrefSize(XP_BAR_WIDTH, XP_BAR_HEIGHT);
-        xpContainer.setStyle(
-                "-fx-border-color: #000000;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-border-radius: 8;"
-        );
-
-        // représente la zone totale de la jauge,
-
         StackPane xpBackground = new StackPane();
-        xpBackground.setPrefSize(XP_BAR_WIDTH - 4, XP_BAR_HEIGHT - 4);
-        xpBackground.setLayoutX(2);
-        xpBackground.setLayoutY(2);
+        xpBackground.setMinSize(XP_BAR_WIDTH, XP_BAR_HEIGHT);
+        xpBackground.setMaxSize(XP_BAR_WIDTH, XP_BAR_HEIGHT);
         xpBackground.setStyle(
                 "-fx-background-color: #ffffff;" +
-                        "-fx-background-radius: 6;"
+                "-fx-background-radius: 6;"
         );
 
         // jauge
 
         xpFill = new Region();
-        xpFill.setPrefHeight(XP_BAR_HEIGHT - 4);
+        xpFill.setMinHeight(XP_BAR_HEIGHT);
+        xpFill.setMinHeight(XP_BAR_HEIGHT);
         xpFill.setStyle(
                 "-fx-background-color: #00d9ff;" +
-                        "-fx-background-radius: 6;"
+                "-fx-background-radius: 6;"
         );
 
         xpBackground.setAlignment(Pos.CENTER_LEFT);
         xpBackground.getChildren().add(xpFill);
-        xpContainer.getChildren().add(xpBackground);
 
-        //  Clip pour empêcher le débordement du fill
-        Rectangle clip = new Rectangle(XP_BAR_WIDTH - 4, XP_BAR_HEIGHT - 4);
-        xpBackground.setClip(clip);
-
-        xpBar = new StackPane(xpContainer);
+        StackPane xpBar = new StackPane(xpBackground);
 
         xpText = new Text();
         xpText.setFill(Palette.colorComment());
         xpText.setFont(Palette.fontComment());
-
-
 
         updateProfile();
 
@@ -169,20 +151,23 @@ public class Profile extends Page {
 
     private void updateProfile() {
 
-        int level = Account.getLevel();
-        int xp = Account.getExperience();
-        int maxXp = level * 50;
-
         nameText.setText("NAME: " + Account.getName());
-        levelText.setText("LEVEL: " + level);
+        levelText.setText("LEVEL: " + Account.getLevel());
         experienceText.setText("EXPERIENCE:");
 
-        double ratio = (maxXp == 0) ? 0 : Math.min(1.0, (double) xp / maxXp);
+        int experience = Account.getExperience();
+        int maxExperience = Account.getMaxExperience();
 
-        xpFill.setPrefWidth((XP_BAR_WIDTH - 4) * ratio);
+        double ratio = (double) experience / maxExperience;
+        int length = (int) ((XP_BAR_WIDTH - 4) * ratio);
 
+        System.out.println(length);
 
-        xpText.setText("XP : " + xp + " / " + maxXp);
+        xpFill.setMinWidth(length);
+        xpFill.setMaxWidth(length);
+
+        xpText.setText("XP : " + experience + " / " + maxExperience);
+
     }
 }
 

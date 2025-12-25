@@ -210,25 +210,21 @@ public class Mechanism {
 
     }
 
-    public static void conclude() {
+    public static Player conclude() {
 
-        Player winner = null;
+        Player result = null;
 
         for (int index = 0; index < players.size(); index++) {
 
             Player player = players.get(index);
 
-            if (winner == null || player.getScore() > winner.getScore()) {
-                winner = player;
+            if (result == null || player.getScore() > result.getScore()) {
+                result = player;
             }
 
         }
 
-        if (winner != null) {
-
-        }
-
-
+        return result;
 
     }
 

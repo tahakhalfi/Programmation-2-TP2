@@ -138,6 +138,10 @@ public class Account {
         return experience;
     }
 
+    public static int getMaxExperience() {
+        return level * EXPERIENCING;
+    }
+
     public static void addExperience(int amount) {
 
         experience += amount;
@@ -148,11 +152,11 @@ public class Account {
 
     public static void lookExperience() {
 
-        int limit = level * EXPERIENCING;
+        int max = getMaxExperience();
 
-        if (experience >= limit) {
+        if (experience >= max) {
 
-            experience -= limit;
+            experience -= max;
 
             upLevel();
             lookExperience();
