@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import manager.Animation;
 import manager.Palette;
@@ -17,10 +16,7 @@ import viewer.Page;
 
 import java.util.List;
 
-public class Profile extends Page {
-
-    private static final double XP_BAR_WIDTH = 260;
-    private static final double XP_BAR_HEIGHT = 16;
+public class Profile2 extends Page {
 
     private Text nameText;
     private Text levelText;
@@ -35,9 +31,9 @@ public class Profile extends Page {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(50);
-        root.setBackground(new Background(
-                new BackgroundFill(Palette.colorBackground(), null, null)
-        ));
+        root.setBackground(
+                new Background(new BackgroundFill(Palette.colorBackground(), null, null))
+        );
 
         Text title = new Text("PROFILE");
         title.setId("profile");
@@ -55,9 +51,14 @@ public class Profile extends Page {
         form.setAlignment(Pos.CENTER);
         form.setSpacing(15);
 
+        // === TEXTS ===
         nameText = new Text();
         levelText = new Text();
         experienceText = new Text();
+
+        nameText.setId("pseudo");
+        levelText.setId("level");
+        experienceText.setId("experience");
 
         nameText.setFill(Palette.colorComment());
         levelText.setFill(Palette.colorComment());
@@ -67,75 +68,46 @@ public class Profile extends Page {
         levelText.setFont(Palette.fontComment());
         experienceText.setFont(Palette.fontComment());
 
-        /* ================= BARRE XP ================= */
-
-        // contour barre xp
-
-        Pane xpContainer = new Pane();
-        xpContainer.setPrefSize(XP_BAR_WIDTH, XP_BAR_HEIGHT);
-        xpContainer.setStyle(
-                "-fx-border-color: #000000;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-border-radius: 8;"
-        );
-
-        // représente la zone totale de la jauge,
-
-        StackPane xpBackground = new StackPane();
-        xpBackground.setPrefSize(XP_BAR_WIDTH - 4, XP_BAR_HEIGHT - 4);
-        xpBackground.setLayoutX(2);
-        xpBackground.setLayoutY(2);
-        xpBackground.setStyle(
-                "-fx-background-color: #ffffff;" +
-                        "-fx-background-radius: 6;"
-        );
-
-        // jauge
-
+        // === XP BAR ===
         xpFill = new Region();
-        xpFill.setPrefHeight(XP_BAR_HEIGHT - 4);
-        xpFill.setStyle(
-                "-fx-background-color: #00d9ff;" +
-                        "-fx-background-radius: 6;"
+        xpFill.setPrefHeight(16);
+        xpFill.setStyle("-fx-background-color: orange; -fx-background-radius: 8;");
+
+        Region xpBackground = new Region();
+        xpBackground.setPrefSize(260, 16);
+        xpBackground.setStyle(
+                "-fx-background-color: rgba(255,255,255,0.3); -fx-background-radius: 8;"
         );
 
-        xpBackground.setAlignment(Pos.CENTER_LEFT);
-        xpBackground.getChildren().add(xpFill);
-        xpContainer.getChildren().add(xpBackground);
-
-        //  Clip pour empêcher le débordement du fill
-        Rectangle clip = new Rectangle(XP_BAR_WIDTH - 4, XP_BAR_HEIGHT - 4);
-        xpBackground.setClip(clip);
-
-        xpBar = new StackPane(xpContainer);
+        xpBar = new StackPane(xpBackground, xpFill);
+        xpBar.setAlignment(Pos.CENTER_LEFT);
 
         xpText = new Text();
         xpText.setFill(Palette.colorComment());
         xpText.setFont(Palette.fontComment());
 
-
-
+        // MAINTENANT TOUT EXISTE
         updateProfile();
 
-        /* ================= BOUTON ================= */
-
+        // === BUTTON ===
         HBox bottom = new HBox();
         bottom.setId("bottom");
         bottom.setAlignment(Pos.CENTER);
+        bottom.setSpacing(20);
         bottom.setPadding(new Insets(10, 24, 10, 24));
 
-        Button back = new Button("BACK");
-        back.setTextFill(Palette.colorInactive());
-        back.setFont(Palette.fontInactive());
-        back.setBackground(new Background(
-                new BackgroundFill(Palette.colorInvisible(), null, null)
-        ));
+        Button button = new Button("BACK");
+        button.setTextFill(Palette.colorInactive());
+        button.setFont(Palette.fontInactive());
+        button.setBackground(
+                new Background(new BackgroundFill(Palette.colorInvisible(), null, null))
+        );
 
-        back.setOnMouseEntered(Animation::activate);
-        back.setOnMouseExited(Animation::inactivate);
-        back.setOnMouseClicked(e -> Remote.backProfileButtonClicked());
+        button.setOnMouseEntered(Animation::activate);
+        button.setOnMouseExited(Animation::inactivate);
+        button.setOnMouseClicked(e -> Remote.backProfileButtonClicked());
 
-        bottom.getChildren().add(back);
+        bottom.getChildren().add(button);
 
         form.getChildren().addAll(
                 nameText,
@@ -156,14 +128,18 @@ public class Profile extends Page {
     }
 
     public void open(Runnable onFinished) {
+
         Pane bottom = (Pane) root.lookup("#bottom");
         List<Node> children = bottom.getChildren();
+
         Animation.fadein(children, 0, 1, 0.5, 0.1, onFinished);
     }
 
     public void close(Runnable onFinished) {
+
         Pane bottom = (Pane) root.lookup("#bottom");
         List<Node> children = bottom.getChildren();
+
         Animation.fadeout(children, children.size() - 1, -1, 0.5, 0.1, onFinished);
     }
 
@@ -178,11 +154,8 @@ public class Profile extends Page {
         experienceText.setText("EXPERIENCE:");
 
         double ratio = (maxXp == 0) ? 0 : Math.min(1.0, (double) xp / maxXp);
-
-        xpFill.setPrefWidth((XP_BAR_WIDTH - 4) * ratio);
-
+        xpFill.setPrefWidth(260 * ratio);
 
         xpText.setText("XP : " + xp + " / " + maxXp);
     }
 }
-
