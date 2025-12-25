@@ -2,6 +2,7 @@ package manager;
 
 import java.nio.file.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -83,6 +84,8 @@ public class Storage {
     }
 
     public static void write(String name, List<String> content) {
+
+        if (content == null) {content = new ArrayList<>();}
 
         String route = CORE + name;
 

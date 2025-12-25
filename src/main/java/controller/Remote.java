@@ -1,33 +1,59 @@
 package controller;
 
+import manager.Storage;
 import modeler.game.Mechanism;
+import modeler.game.Player;
+import modeler.memoire.History;
 import modeler.usage.Account;
 import viewer.Window;
 import viewer.interaction.Config;
 import viewer.interaction.Game;
 import viewer.interaction.Track;
 
-import java.util.HashMap;
-
 public class Remote {
 
     public static void playButtonClicked() {
+
         Window.advance("config", null);
+
     }
 
     public static void profileButtonClicked() {
+
         Window.advance("profile", null);
+
     }
 
     public static void trackButtonClicked() {
+
+        Track track = (Track) Window.getPage("track");
+
+        track.refresh(History.copy());
+
         Window.advance("track", null);
+
+    }
+
+    public static void clearButtonClicked() {
+
+        Track track = (Track) Window.getPage("track");
+
+        History.clear();
+
+        track.refresh(History.copy());
+
     }
 
     public static void quitButtonClicked() {
 
         Account.savein();
-
         Window.close(null);
+
+    }
+
+    public static void backButtonClicked() {
+
+        Window.advance("menu",null);
 
     }
 
@@ -47,36 +73,33 @@ public class Remote {
 
     }
 
-    public static void backConfigButtonClicked() {
-
-        Config config = (Config) Window.getPage("config");
-
-        config.indicate(Mechanism.normalize());
-
-        Window.advance("menu",null);
-
-    }
-
     public static void startButtonClicked() {
 
         Game game = (Game) Window.getPage("game");
 
         game.store(Mechanism.getQuantity());
 
-        Mechanism.start();
+        Window.advance("game", () -> {
 
-        game.declare(Mechanism.getTurn(), Mechanism.getName());
+            Mechanism.start();
 
-        for (int index = 0; index < Mechanism.getQuantity(); index++) {
+            game.inform(Mechanism.getTurn(), Mechanism.getName());
 
-            game.place(index, Mechanism.getSection(index));
-            game.present(index, Mechanism.getValue(index));
+            for (int i = 0; i < Mechanism.getQuantity(); i++) {
 
-        }
+                Integer index = i;
 
-        game.permit(Mechanism.getAccess());
+                String section = Mechanism.getSection(index);
+                Integer value = Mechanism.getValue(index);
 
-        Window.advance("game", null);
+                game.place(index, section);
+                game.flicker(index, 10, () -> {game.present(index, value);});
+
+            }
+
+            game.permit(Mechanism.getAccess());
+
+        });
 
     }
 
@@ -96,71 +119,64 @@ public class Remote {
 
         Game game = (Game) Window.getPage("game");
 
+        Track track = (Track) Window.getPage("track");
+
         Mechanism.transit();
 
-        game.declare(Mechanism.getTurn(), Mechanism.getName());
+        game.inform(Mechanism.getTurn(), Mechanism.getName());
 
-        for (int index = 0; index < Mechanism.getQuantity(); index++) {
+        for (int i = 0; i < Mechanism.getQuantity(); i++) {
 
-            game.place(index, Mechanism.getSection(index));
-            game.present(index, Mechanism.getValue(index));
+            Integer index = i;
+
+            String section = Mechanism.getSection(index);
+            Integer value = Mechanism.getValue(index);
+
+            game.place(index, section);
+
+            if (section.equals("in")) {game.flicker(index, 10, () -> {game.present(index, value);});}
 
         }
 
         game.permit(Mechanism.getAccess());
 
-    }
+        if (!Mechanism.getActive()) {
 
-    public static void backTrackButtonClicked(){
-        Window.advance("menu",null);
-    }
+            String name = null;
+            String score = null;
 
-    public static void refreshButtonCliqued(){
-        //Window.advance("track",null);
-    }
+            Player winner = Mechanism.getWinner();
 
-    public static void clearHistoryButtonCliqued(){
-        Track track = (Track) Window.getPage("track");
-        track.clearInfo();
-    }
+            if (winner != null) {
+                name = winner.getName();
+                score = String.valueOf(winner.getScore());
+            }
 
-    // ajout
+            History.save(name, score);
 
-    public static void backProfileButtonClicked(){
-        Window.advance("menu",null);
+            game.declare(name, score, () -> {
+
+                game.empty();
+
+                Mechanism.end();
+
+                game.inform(-1, "");
+
+                for (int index = 0; index < Mechanism.getQuantity(); index++) {
+
+                    game.place(index, null);
+                    game.present(index, null);
+
+                }
+
+                game.permit(false);
+
+                Window.advance("menu", null);
+
+            });
+
+        }
+
     }
 
 }
-
-
-
-/*package controller;
-
-import viewer.Window;
-
-public class Remote {
-
-
-    public static void playButtonClicked() {
-        Window.advance("place", null);
-    }
-
-    public static void bundleButtonClicked() {
-
-    }
-
-    public static void trackButtonClicked() {
-        Window.advance("track", null);
-    }
-
-    public static void optionsButtonClicked() {
-
-    }
-
-    public static void quitButtonClicked() { Window.close(null); }
-
-
-
-}
-*/
-

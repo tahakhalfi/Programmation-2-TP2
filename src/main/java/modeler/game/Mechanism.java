@@ -1,10 +1,10 @@
 package modeler.game;
 
-import manager.Message;
+import modeler.memoire.History;
 import modeler.usage.Account;
 
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.random.RandomGenerator;
 
 public class Mechanism {
@@ -16,7 +16,9 @@ public class Mechanism {
     private static final int MAX_PLAYERS = 6;
 
     private static boolean active = false;
-    private static int turn = -1;
+    private static int round = -1;
+
+    private static Player winner = null;
 
     private static HashMap<Integer, String> sections = new HashMap<>(6);
     private static HashMap<Integer, Integer> values = new HashMap<>(6);
@@ -39,25 +41,20 @@ public class Mechanism {
         return scale;
     }
 
-    public static int normalize() {
-        scale = 1;
-        return scale;
-    }
-
     public static void start() {
 
         players.add(new Player(Account.getName()));
 
         for (int i = 0; i < scale; i++) {
-            players.add(new Player("Player #" + i));
-        }
-
-        for (int index = 0; index < QUANTITY; index++) {
-            values.put(index, null);
+            players.add(new Player("Player #" + (i + 2)));
         }
 
         for (int index = 0; index < QUANTITY; index++) {
             sections.put(index, null);
+        }
+
+        for (int index = 0; index < QUANTITY; index++) {
+            values.put(index, null);
         }
 
         trajectories.put("in", null);
@@ -65,10 +62,27 @@ public class Mechanism {
         trajectories.put("out", null);
 
         active = true;
-        turn = 0;
+        round = 0;
+        winner = null;
 
         arrange();
         establish();
+
+    }
+
+    public static void end() {
+
+        players.clear();
+
+        values.clear();
+        sections.clear();
+
+        trajectories.clear();
+
+        active = false;
+        round = -1;
+
+        winner = null;
 
     }
 
@@ -142,7 +156,13 @@ public class Mechanism {
         for (int index = 0; index < QUANTITY; index++) {
 
             if (sections.get(index).equals(section)) {
-                total += values.get(index);
+
+                int value = values.get(index);
+
+                if (value != 3) {
+                    total += values.get(index);
+                }
+
             }
 
         }
@@ -152,6 +172,10 @@ public class Mechanism {
     }
 
     public static void select(int index) {
+
+        if (!active) {
+            return;
+        }
 
         String now = sections.get(index);
 
@@ -171,6 +195,10 @@ public class Mechanism {
 
     public static void transit() {
 
+        if (!active) {
+            return;
+        }
+
         unflowate();
 
         for (int index = 0; index < QUANTITY; index++) {
@@ -179,23 +207,21 @@ public class Mechanism {
 
         if (count("in") == 0) {
 
-            Player player = players.get(turn);
+            Player player = players.get(round);
 
             player.setScore(sum("out"));
 
-            int next = turn + 1;
+            int next = round + 1;
 
             if (next >= players.size()) {
 
                 active = false;
-                turn = -1;
 
                 conclude();
 
             } else {
 
-                active = true;
-                turn = next;
+                round = next;
 
                 arrange();
                 establish();
@@ -210,30 +236,44 @@ public class Mechanism {
 
     }
 
-    public static Player conclude() {
+    public static void conclude() {
 
-        Player result = null;
+        int minimum = (QUANTITY * 6) + 1;
+        Player selected = null;
 
         for (int index = 0; index < players.size(); index++) {
 
             Player player = players.get(index);
 
-            if (result == null || player.getScore() > result.getScore()) {
-                result = player;
+            int score = player.getScore();
+
+            if (score < minimum) {
+                minimum = score;
+                selected = player;
+            } else if (score == minimum) {
+                selected = null;
             }
 
         }
 
-        return result;
+        winner = selected;
 
+    }
+
+    public static boolean getActive() {
+        return active;
     }
 
     public static int getTurn() {
-        return turn;
+        return round + 1;
+    }
+
+    public static Player getWinner() {
+        return winner;
     }
 
     public static String getName() {
-        return players.get(turn).getName();
+        return players.get(round).getName();
     }
 
     public static int getQuantity() {

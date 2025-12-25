@@ -115,7 +115,8 @@ public class Profile extends Page {
 
         back.setOnMouseEntered(Animation::activate);
         back.setOnMouseExited(Animation::inactivate);
-        back.setOnMouseClicked(e -> Remote.backProfileButtonClicked());
+
+        back.setOnMouseClicked(e -> Remote.backButtonClicked());
 
         bottom.getChildren().add(back);
 

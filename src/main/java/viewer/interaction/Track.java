@@ -37,14 +37,14 @@ public class Track extends Page {
 
         TableView<Log> table = new TableView<>();
 
-        TableColumn<Log,String> column1 = new TableColumn<>("date");
+        TableColumn<Log,String> column1 = new TableColumn<>("DATE");
         column1.setCellValueFactory(data -> data.getValue().dateProperty());
 
-        TableColumn<Log,String> column2 = new TableColumn<>("player's scores");
-        column2.setCellValueFactory(data -> data.getValue().scoresProperty());
+        TableColumn<Log,String> column2 = new TableColumn<>("WINNER");
+        column2.setCellValueFactory(data -> data.getValue().winnerProperty());
 
-        TableColumn<Log,String> column3 = new TableColumn<>("winner");
-        column3.setCellValueFactory(data -> data.getValue().winnerProperty());
+        TableColumn<Log,String> column3 = new TableColumn<>("SCORE");
+        column3.setCellValueFactory(data -> data.getValue().scoresProperty());
 
         table.getColumns().addAll(column1, column2, column3);
 
@@ -64,6 +64,7 @@ public class Track extends Page {
         bottom.setPadding(new Insets(10, 24, 10, 24));
 
         Button button = new Button("BACK");
+        button.setId("back");
         button.setTextFill(Palette.colorInactive());
         button.setFont(Palette.fontInactive());
         button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
@@ -71,23 +72,12 @@ public class Track extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.backTrackButtonClicked();});
-
-        bottom.getChildren().add(button);
-
-        button = new Button("REFRESH");
-        button.setTextFill(Palette.colorInactive());
-        button.setFont(Palette.fontInactive());
-        button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
-
-        button.setOnMouseEntered(Animation::activate);
-        button.setOnMouseExited(Animation::inactivate);
-
-        button.setOnMouseClicked(event -> {Remote.refreshButtonCliqued();});
+        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
 
         bottom.getChildren().add(button);
 
         button = new Button("CLEAR");
+        button.setId("clear");
         button.setTextFill(Palette.colorInactive());
         button.setFont(Palette.fontInactive());
         button.setBackground(new Background(new BackgroundFill(Palette.colorInvisible(), null, null)));
@@ -95,12 +85,9 @@ public class Track extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.clearHistoryButtonCliqued();});
+        button.setOnMouseClicked(event -> {Remote.clearButtonClicked();});
 
         bottom.getChildren().add(button);
-
-        showInfo("2025-12-22", "Nizar", "Nizar:0 et Taha: 26");
-        showInfo("2025-12-23", "Taha", "Nizar:23 et Taha: 5");
 
         root.getChildren().addAll(text, table, bottom);
 
@@ -129,30 +116,36 @@ public class Track extends Page {
 
     }
 
-    // showInfo methode
+    public void refresh(List<List<String>> table) {
 
-    public void showInfo(String date, String winner, String scores){
-
-        // Ajout d'une ligne
-
-        historique.add(new Log(
-                date,
-                winner,
-                scores
-        ));
-
-    }
-    // hideInfo methode
-
-    public void hideInfo(int index){
-        if(index >= 0 && index < historique.size()){
-            historique.remove(index);
-        }
-    }
-
-    public void clearInfo(){
         historique.clear();
+
+        if (table == null) {
+            return;
+        }
+
+        for (int index = 0; index < table.size(); index++) {
+
+            List<String> data = table.get(index);
+
+            if (data == null || data.size() != 3) {
+                continue;
+            }
+
+            String date = data.get(0);
+            String name = data.get(1);
+            String score = data.get(2);
+
+            historique.add(new Log(
+                    date,
+                    name,
+                    score
+            ));
+
+        }
+
     }
+
 
 
 }

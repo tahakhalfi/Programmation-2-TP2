@@ -12,7 +12,12 @@ import manager.Animation;
 import manager.Palette;
 import viewer.Page;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import java.util.random.RandomGenerator;
 
 public class Game extends Page {
 
@@ -78,6 +83,7 @@ public class Game extends Page {
         // SPACE REGION
 
         space = new Region();
+        space.setId("space");
         HBox.setHgrow(space, Priority.ALWAYS);
 
         top.getChildren().add(space);
@@ -254,6 +260,8 @@ public class Game extends Page {
 
         }
 
+        selections.clear();
+
     }
 
     public void place(Integer index, String section) {
@@ -291,6 +299,30 @@ public class Game extends Page {
         }
 
         after.getChildren().add(selection);
+
+    }
+
+    public void flicker(Integer index, Integer time, Runnable onFinished) {
+
+        if (time > 0) {
+
+            Integer value = RandomGenerator.getDefault().nextInt(1, 7);
+
+            present(index, value);
+
+            Animation.pause(0.1, () -> {
+                flicker(index, time - 1, onFinished);
+            });
+
+        } else {
+
+            if (onFinished != null) {
+                onFinished.run();
+            }
+
+        }
+
+
 
     }
 
@@ -336,15 +368,55 @@ public class Game extends Page {
 
     }
 
-    public void declare(int turn, String name) {
+    public void inform(Integer turn, String name) {
 
-        Text text = (Text) root.lookup("#top").lookup("#turn");
+        Text turnText = (Text) root.lookup("#top").lookup("#turn");
 
-        text.setText("TURN : " + turn);
+        turnText.setText("TURN : " + turn);
 
-        text = (Text) root.lookup("#top").lookup("#name");
+        Text nameText = (Text) root.lookup("#top").lookup("#name");
 
-        text.setText("PLAYER : " + name.toUpperCase());
+        nameText.setText("PLAYER : " + name.toUpperCase());
+
+    }
+
+    public void declare(String name, String score, Runnable onFinished) {
+
+        Text turnText = (Text) root.lookup("#top").lookup("#turn");
+
+        turnText.setVisible(false);
+        turnText.setManaged(false);
+
+        Region spaceRegion = (Region) root.lookup("#top").lookup("#space");
+
+        spaceRegion.setVisible(false);
+        spaceRegion.setManaged(false);
+
+        Text nameText = (Text) root.lookup("#top").lookup("#name");
+
+        if (name != null && score != null) {
+            nameText.setText("WINNER : " + name.toUpperCase() + " - SCORE : " + score + " POINTS");
+        } else {
+            nameText.setText("DRAW MATCH");
+        }
+
+        Animation.pause(5, () -> {
+
+            turnText.setVisible(true);
+            turnText.setManaged(true);
+
+            turnText.setText("");
+
+            spaceRegion.setVisible(true);
+            spaceRegion.setManaged(true);
+
+            nameText.setText("");
+
+            if (onFinished != null) {
+                onFinished.run();
+            }
+
+        });
 
     }
 

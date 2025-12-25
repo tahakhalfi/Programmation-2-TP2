@@ -102,7 +102,7 @@ public class Config extends Page {
         button.setOnMouseEntered(Animation::activate);
         button.setOnMouseExited(Animation::inactivate);
 
-        button.setOnMouseClicked(event -> {Remote.backConfigButtonClicked();});
+        button.setOnMouseClicked(event -> {Remote.backButtonClicked();});
 
         bottom.getChildren().add(button);
 
